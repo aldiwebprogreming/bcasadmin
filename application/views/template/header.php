@@ -61,6 +61,11 @@
                     <i class="fas fa-sliders-h"></i>
                     <span>Slide Home</span>
                 </a>
+
+                <a class="nav-link" href="<?= base_url('admin/tambah_slide') ?>">
+                    <i class="fas fa-plus-square"></i>
+                    <span>Tambah Slide</span>
+                </a>
             </li>
 
             

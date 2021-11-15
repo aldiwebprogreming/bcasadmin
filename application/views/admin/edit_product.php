@@ -15,7 +15,7 @@
 
                                         <div class="form-group">
                                             <label>Images</label>
-                                            <input type="file" name="images" class="form-control" required="">
+                                            <input type="file" name="images" class="form-control">
                                              <?= form_error('images', '<small class="text-danger pl-3">', '</small>'); ?>
 
                                              <img src="<?= base_url('assets/upload/') ?><?= $det['images'] ?>" style="height: 100px;">

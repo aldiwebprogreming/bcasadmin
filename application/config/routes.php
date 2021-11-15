@@ -55,3 +55,6 @@ $route['translate_uri_dashes'] = TRUE;
 
 
 $route['admin/edit-prouct/(:any)'] = 'admin/edit_product/$1';
+$route['admin/edit-brand/(:any)'] = 'admin/edit_brand/$1';
+$route['admin/edit-slide/(:any)'] = 'admin/edit_slide/$1';
+

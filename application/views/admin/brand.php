@@ -32,8 +32,37 @@
                                             <td><?= $data['kode_brand'] ?></td>
                                             <td><?= $data['name_brand'] ?></td>
                                             <td>
-                                                <button class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></button>
-                                                <a href="<?= base_url('admin/edit_slide') ?>" class="btn btn-primary btn-sm"><i class="fas fa-pen"></i>
+
+                                            <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#exampleModal<?= $data['id'] ?>">
+                                              <i class="fas fa-trash"></i>
+                                            </button>
+
+                                            <!-- Modal -->
+                                            <div class="modal fade" id="exampleModal<?= $data['id'] ?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                              <div class="modal-dialog">
+                                                <div class="modal-content">
+                                                  <div class="modal-header">
+                                                    <h5 class="modal-title" id="exampleModalLabel">Pesan</h5>
+                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                      <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                  </div>
+                                                  <div class="modal-body">
+                                                    Apakah anda ingin menghapus data ini?
+                                                    <form method="post" action="<?= base_url('admin/hapus_brand') ?>">
+                                                        <input type="hidden" name="id" value="<?= $data['id'] ?>">
+                                                   
+                                                  </div>
+                                                  <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                    <button type="submit" class="btn btn-primary">Delete</button>
+                                                    </form>
+                                                  </div>
+                                                </div>
+                                              </div>
+                                            </div>
+                                               
+                                                <a href="<?= base_url('admin/edit-brand/') ?><?= $data['id'] ?>" class="btn btn-primary btn-sm"><i class="fas fa-pen"></i>
                                             </td>
                                         </tr>
                                         <?php } ?>

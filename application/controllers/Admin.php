@@ -77,6 +77,81 @@
 		}
 
 
+		function edit_slide($id){
+
+			$this->load->helper(array('form', 'url'));
+			$this->form_validation->set_rules('title', 'title', 'required|trim');
+			$this->form_validation->set_rules('desk', 'description ', 'required|trim');
+			$this->form_validation->set_rules('slide', 'slide ', 'required|trim|is_unique[tbl_slide_home.slid]');
+
+
+			if ($this->form_validation->run() == false) {
+				
+				$data['slide'] = $this->db->get_where('tbl_slide_home', ['id' => $id])->row_array();
+				$this->load->view('template/header');
+				$this->load->view('admin/edit_slid', $data);
+				$this->load->view('template/footer');
+			}else{
+
+				$file = $_FILES['images']['name'];
+				if ($file == null) {
+					
+					$data = [
+					
+						'title' => $this->input->post('title'),
+						'desk' => $this->input->post('desk'),
+						'slid' => $this->input->post('slide'),
+
+					];
+
+					$this->db->where('id', $id);
+					$this->db->update('tbl_slide_home', $data);
+					$this->session->set_flashdata('message', 'swal("Yess!", "Data berhasil diedit", "success");');
+					redirect('admin/data_slide');
+				}else{
+
+				$config['upload_path']          = './assets/upload';
+				$config['allowed_types']        = 'jpg|png|jpeg';
+			
+
+				$this->load->library('upload', $config);
+				if (!$this->upload->do_upload('images')){
+					$error = array('error' => $this->upload->display_errors());
+					$this->session->set_flashdata('message', 'swal("Oops!!", "Upload gambar gagal", "warning" );');
+			 		redirect('admin/data_slide');
+			 	}else{
+
+					$data = [
+					
+						'title' => $this->input->post('title'),
+						'desk' => $this->input->post('desk'),
+						'images' =>  $_FILES['images']['name'],
+						'slid' => $this->input->post('slide'),
+
+					];
+					$this->db->where('id', $id);
+					$this->db->update('tbl_slide_home', $data);
+					$this->session->set_flashdata('message', 'swal("Yess!", "Data berhasil diedit", "success");');
+					redirect('admin/data_slide');
+
+			 	}
+
+			 }
+
+			}
+
+		}
+
+		function hapus_slide(){
+
+			$id = $this->input->post('id');
+			$this->db->where('id', $id);
+			$this->db->delete('tbl_slide_home');
+			$this->session->set_flashdata('message', 'swal("Yess!", "Data berhasil dihapus", "success");');
+			redirect('admin/data_slide');
+		}
+
+
 		function product(){
 
 			$data['product'] = $this->m_data->get_all('tbl_product');
@@ -120,7 +195,7 @@
 					];
 
 					$this->m_data->add('tbl_product', $data);
-					$this->session->set_flashdata('message', 'swal("Yess!", "Datar berhasil dipost", "success");');
+					$this->session->set_flashdata('message', 'swal("Yess!", "Data berhasil dipost", "success");');
 					redirect('admin/product');
 			 	}
 			}
@@ -139,6 +214,23 @@
 				$this->load->view('template/footer');
 
 			}else{
+				$file = $_FILES['images']['name'];
+
+				if ($file == null) {
+
+					$data = [
+					
+						'title_product' => $this->input->post('title'),
+						'kode_brand' => $this->input->post('kode_brand'),
+
+					];
+
+					$this->db->where('id', $id);
+					$this->db->update('tbl_product', $data);
+					$this->session->set_flashdata('message', 'swal("Yess!", "Data berhasil diedit", "success");');
+					redirect('admin/product');
+					
+				}else{
 
 				$config['upload_path']          = './assets/upload';
 				$config['allowed_types']        = 'jpg|png|jpeg';
@@ -161,13 +253,13 @@
 
 					$this->db->where('id', $id);
 					$this->db->update('tbl_product', $data);
-					$this->session->set_flashdata('message', 'swal("Yess!", "Datar berhasil diedit", "success");');
+					$this->session->set_flashdata('message', 'swal("Yess!", "Data berhasil diedit", "success");');
 					redirect('admin/product');
 			 	}
 
-			}
+			 }
 
-			
+			}
 
 		}
 
@@ -177,7 +269,7 @@
 			$id = $this->input->post('id');
 			$this->db->where('id', $id);
 			$this->db->delete('tbl_product');
-			$this->session->set_flashdata('message', 'swal("Yess!", "Datar berhasil dihapus", "success");');
+			$this->session->set_flashdata('message', 'swal("Yess!", "Data berhasil dihapus", "success");');
 			redirect('admin/product');
 		}
 
@@ -216,10 +308,50 @@
 			];
 
 			$this->m_data->add('tbl_brand', $data);
-			$this->session->set_flashdata('message', 'swal("Yess!", "Datar berhasil dipost", "success");');
+			$this->session->set_flashdata('message', 'swal("Yess!", "Data berhasil dipost", "success");');
 			redirect('admin/brand');
 			 	
 		}
+	}
+
+
+	function edit_brand($id){
+
+		$this->load->helper(array('form', 'url'));
+		$this->form_validation->set_rules('kode_brand', 'kode brand', 'required|trim');
+		$this->form_validation->set_rules('name_brand', 'name brand', 'required|trim');
+
+
+		if ($this->form_validation->run() == false) {
+			$data['brand'] = $this->db->get_where('tbl_brand',['id' => $id])->row_array();
+			$this->load->view('template/header');
+			$this->load->view('admin/edit_brand', $data);
+			$this->load->view('template/footer');
+			
+		}else{
+
+			$data = [
+
+				'kode_brand' => $this->input->post('kode_brand'),
+				'name_brand' => $this->input->post('name_brand'),
+			];
+			$this->db->where('id', $id);
+			$this->db->update('tbl_brand', $data);
+			$this->session->set_flashdata('message', 'swal("Yess!", "Data berhasil diedit", "success");');
+			redirect('admin/brand');
+
+		}
+
+	}
+
+
+	function hapus_brand(){
+
+		$id = $this->input->post('id');
+		$this->db->where('id', $id);
+		$this->db->delete('tbl_brand');
+		$this->session->set_flashdata('message', 'swal("Yess!", "Data berhasil dihapus", "success");');
+		redirect('admin/brand');
 	}
 
 
@@ -252,10 +384,20 @@
 			];
 
 			$this->m_data->add('tbl_admin', $data);
-			$this->session->set_flashdata('message', 'swal("Yess!", "Datar berhasil dipost", "success");');
+			$this->session->set_flashdata('message', 'swal("Yess!", "Data berhasil dipost", "success");');
 			redirect('admin/admin');
 		}
 
+	}
+
+
+	function hapus_admin(){
+
+		$id = $this->input->post('id');
+		$this->db->where('id', $id);
+		$this->db->delete('tbl_admin');
+		$this->session->set_flashdata('message', 'swal("Yess!", "Data berhasil dihapus", "success");');
+		redirect('admin/admin');
 	}
 
 
