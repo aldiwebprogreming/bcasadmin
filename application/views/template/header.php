@@ -68,6 +68,33 @@
                 </a>
             </li>
 
+
+            <hr class="sidebar-divider">
+
+
+            <div class="sidebar-heading">
+                About
+            </div>
+
+            <!-- Nav Item - Pages Collapse Menu -->
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages"
+                    aria-expanded="true" aria-controls="collapsePages">
+                    <i class="fas fa-fw fa-folder"></i>
+                    <span>About</span>
+                </a>
+                <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        
+                        <a class="collapse-item" href="login.html">Our Vission</a>
+                        <a class="collapse-item" href="register.html">Our Mission</a>
+                        <a class="collapse-item" href="forgot-password.html">Our Product</a>
+                        <a class="collapse-item" href="forgot-password.html">Our Strength</a>
+                        
+                    </div>
+                </div>
+            </li>
+
             
 
             <!-- Divider -->

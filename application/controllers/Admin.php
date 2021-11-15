@@ -355,6 +355,26 @@
 	}
 
 
+
+	function visi(){
+
+		$data['visi'] = $this->db->get('tbl_visi')->result_array();
+		$this->load->view('template/header');
+		$this->load->view('admin/visi', $data);
+		$this->load->view('template/footer');
+
+	}
+
+		function misi(){
+
+		$data['misi'] = $this->db->get('tbl_misi')->result_array();
+		$this->load->view('template/header');
+		$this->load->view('admin/misi', $data);
+		$this->load->view('template/footer');
+
+	}
+
+
 	function admin(){
 
 
