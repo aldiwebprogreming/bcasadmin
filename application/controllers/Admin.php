@@ -53,7 +53,7 @@
 				$this->load->library('upload', $config);
 				if (!$this->upload->do_upload('images')){
 					$error = array('error' => $this->upload->display_errors());
-					$this->session->set_flashdata('message', 'swal("Gagal!", "Upload gambar gagal", "warning" );');
+					$this->session->set_flashdata('message', 'swal("Oops!!", "Upload gambar gagal", "warning" );');
 			 		redirect('admin/data_slide');
 			 	}else{
 
@@ -66,7 +66,7 @@
 
 					];
 					$this->m_data->add('tbl_slide_home', $data);
-					$this->session->set_flashdata('message', 'swal("Sukses!", "Datar berhasil dipost", "success");');
+					$this->session->set_flashdata('message', 'swal("Yess!", "Datar berhasil dipost", "success");');
 					redirect('admin/data_slide');
 
 			 	}
@@ -107,7 +107,7 @@
 				$this->load->library('upload', $config);
 				if (!$this->upload->do_upload('images')){
 					$error = array('error' => $this->upload->display_errors());
-					$this->session->set_flashdata('message', 'swal("Gagal!", "Upload gambar gagal", "warning" );');
+					$this->session->set_flashdata('message', 'swal("Oops!", "Upload gambar gagal", "warning" );');
 			 		redirect('admin/product');
 			 	}else{
 
@@ -120,10 +120,65 @@
 					];
 
 					$this->m_data->add('tbl_product', $data);
-					$this->session->set_flashdata('message', 'swal("Sukses!", "Datar berhasil dipost", "success");');
+					$this->session->set_flashdata('message', 'swal("Yess!", "Datar berhasil dipost", "success");');
 					redirect('admin/product');
 			 	}
 			}
+		}
+
+
+		function edit_product($id){
+
+			$this->load->helper(array('form', 'url'));
+			$this->form_validation->set_rules('title', 'title', 'required|trim');
+			if ($this->form_validation->run() == false) {
+
+				$data['det'] = $this->db->get_where('tbl_product',['id' => $id])->row_array();
+				$this->load->view('template/header');
+				$this->load->view('admin/edit_product', $data);
+				$this->load->view('template/footer');
+
+			}else{
+
+				$config['upload_path']          = './assets/upload';
+				$config['allowed_types']        = 'jpg|png|jpeg';
+			
+
+				$this->load->library('upload', $config);
+				if (!$this->upload->do_upload('images')){
+					$error = array('error' => $this->upload->display_errors());
+					$this->session->set_flashdata('message', 'swal("Oops!", "Upload gambar gagal", "warning" );');
+			 		redirect('admin/product');
+			 	}else{
+
+					$data = [
+					
+						'title_product' => $this->input->post('title'),
+						'images' =>  $_FILES['images']['name'],
+						'kode_brand' => $this->input->post('kode_brand'),
+
+					];
+
+					$this->db->where('id', $id);
+					$this->db->update('tbl_product', $data);
+					$this->session->set_flashdata('message', 'swal("Yess!", "Datar berhasil diedit", "success");');
+					redirect('admin/product');
+			 	}
+
+			}
+
+			
+
+		}
+
+
+		function hapus_product(){
+
+			$id = $this->input->post('id');
+			$this->db->where('id', $id);
+			$this->db->delete('tbl_product');
+			$this->session->set_flashdata('message', 'swal("Yess!", "Datar berhasil dihapus", "success");');
+			redirect('admin/product');
 		}
 
 
@@ -161,7 +216,7 @@
 			];
 
 			$this->m_data->add('tbl_brand', $data);
-			$this->session->set_flashdata('message', 'swal("Sukses!", "Datar berhasil dipost", "success");');
+			$this->session->set_flashdata('message', 'swal("Yess!", "Datar berhasil dipost", "success");');
 			redirect('admin/brand');
 			 	
 		}
@@ -197,11 +252,14 @@
 			];
 
 			$this->m_data->add('tbl_admin', $data);
-			$this->session->set_flashdata('message', 'swal("Sukses!", "Datar berhasil dipost", "success");');
+			$this->session->set_flashdata('message', 'swal("Yess!", "Datar berhasil dipost", "success");');
 			redirect('admin/admin');
 		}
 
 	}
+
+
+
 
 
 
