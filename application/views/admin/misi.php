@@ -6,9 +6,47 @@
                     <!-- DataTales Example -->
                     <div class="card shadow mb-4">
                         <div class="card-header py-3">
-                            <h6 class="m-0 font-weight-bold text-primary">Data Misi</h6>
+                            <h6 class="m-0 font-weight-bold text-primary">Data Missi</h6>
+
+                            <!-- Button trigger modal -->
+                           
+
+                            <!-- Modal -->
+                            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                              <div class="modal-dialog">
+                                <div class="modal-content">
+                                  <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">Input Missi</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                      <span aria-hidden="true">&times;</span>
+                                    </button>
+                                  </div>
+                                  <div class="modal-body">
+                                    <form method="post" action="" enctype="multipart/form-data">
+                                        <div class="form-group">
+                                            <label>Deskripsi</label>
+                                            <textarea class="form-control" name="desk" required=""></textarea>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Images</label>
+                                            <input type="file" name="images" class="form-control" required="">
+                                        </div>
+                           
+                                  </div>
+                                  <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                    <button type="submit" class="btn btn-primary">Save changes</button>
+                                 </form>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                           
                         </div>
                         <div class="card-body">
+                             <button type="button" class="btn btn-primary btn-sm mb-4" data-toggle="modal" data-target="#exampleModal">
+                              <i class="fas fa-plus"></i> Input Missi
+                            </button>
                             <div class="table-responsive">
                                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                     <thead>
@@ -43,7 +81,7 @@
                                                   </div>
                                                   <div class="modal-body">
                                                     Apakah anda ingin menghapus data ini?
-                                                    <form method="post" action="<?= base_url('admin/hapus_slide') ?>">
+                                                    <form method="post" action="<?= base_url('admin/hapus_misi') ?>">
                                                         <input type="hidden" name="id" value="<?= $data['id'] ?>">
                                                    
                                                   </div>
@@ -55,7 +93,7 @@
                                                 </div>
                                               </div>
                                             </div>
-                                                <a href="<?= base_url('admin/edit-slide/') ?><?= $data['id'] ?>" class="btn btn-primary btn-sm"><i class="fas fa-pen"></i>
+                                                <a href="<?= base_url('admin/edit-misi/') ?><?= $data['id'] ?>" class="btn btn-primary btn-sm"><i class="fas fa-pen"></i>
                                             </td>
                                         </tr>
                                         <?php } ?>

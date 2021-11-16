@@ -16,7 +16,7 @@
                                             <th>No</th>
                                             <th>Imges</th>
                                             <th>Title product</th>
-                                            <th>Brand</th>
+                                            <th>Kode Brand</th>
                                             <th>Opsi</th>
                                             
                                         </tr>

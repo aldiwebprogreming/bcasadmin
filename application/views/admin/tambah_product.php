@@ -30,9 +30,9 @@
                                         <label >Brand</label>
                                         <select name="kode_brand" class="form-control">
                                             <option disabled="">-- Pilih Brand --</option>
-                                            <option>Brand A</option>
-                                            <option>Brand B</option>
-                                            <option>Brand C</option>
+                                            <?php foreach($brand as $brd){ ?>
+                                            <option value="<?= $brd['kode_brand'] ?>"><?= $brd['name_brand'] ?></option>
+                                         <?php } ?>
                                         </select>
                                       </div>
                             

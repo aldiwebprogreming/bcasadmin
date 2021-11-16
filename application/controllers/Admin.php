@@ -156,6 +156,7 @@
 
 			$data['product'] = $this->m_data->get_all('tbl_product');
 
+
 			$this->load->view('template/header');
 			$this->load->view('admin/product', $data);
 			$this->load->view('template/footer');
@@ -169,8 +170,10 @@
 		
 			if ($this->form_validation->run() == false) {
 
+			$data['brand'] = $this->db->get('tbl_brand')->result_array();
+
 			$this->load->view('template/header');
-			$this->load->view('admin/tambah_product');
+			$this->load->view('admin/tambah_product', $data);
 			$this->load->view('template/footer');
 
 			}else{
@@ -358,21 +361,423 @@
 
 	function visi(){
 
-		$data['visi'] = $this->db->get('tbl_visi')->result_array();
-		$this->load->view('template/header');
-		$this->load->view('admin/visi', $data);
-		$this->load->view('template/footer');
+		$this->load->helper(array('form', 'url'));
+		$this->form_validation->set_rules('desk', 'deksripsi', 'required|trim');
+
+		if ($this->form_validation->run() == false) {
+			
+			$data['visi'] = $this->db->get('tbl_visi')->result_array();
+			$this->load->view('template/header');
+			$this->load->view('admin/visi', $data);
+			$this->load->view('template/footer');
+		}else{
+
+			$config['upload_path']          = './assets/upload';
+			$config['allowed_types']        = 'jpg|png|jpeg';
+			
+			$this->load->library('upload', $config);
+			if (!$this->upload->do_upload('images')){
+				$error = array('error' => $this->upload->display_errors());
+				$this->session->set_flashdata('message', 'swal("Oops!", "Upload gambar gagal", "warning" );');
+		 		redirect('admin/visi');
+		 	}else{
+
+	 			$data = [
+				
+					'desk' => $this->input->post('desk'),
+					'images' =>  $_FILES['images']['name'],
+				];
+
+				$this->m_data->add('tbl_visi', $data);
+				$this->session->set_flashdata('message', 'swal("Yess!", "Data berhasil dipost", "success");');
+				redirect('admin/visi');
+
+		 	}
+		}
+
+		
 
 	}
+
+
+	function edit_visi($id){
+
+		$this->load->helper(array('form', 'url'));
+		$this->form_validation->set_rules('desk', 'deksripsi', 'required|trim');
+
+		if ($this->form_validation->run() == false) {
+			$data['visi'] = $this->db->get_where('tbl_visi',['id' => $id])->row_array();
+			$this->load->view('template/header');
+			$this->load->view('admin/edit_visi', $data);
+			$this->load->view('template/footer');
+		}else{
+
+			if ($_FILES['images']['name'] == null) {
+				
+					$data = [
+					
+						'desk' => $this->input->post('desk'),
+					];
+
+					$this->db->where('id', $id);
+					$this->db->update('tbl_visi', $data);
+					$this->session->set_flashdata('message', 'swal("Yess!", "Data berhasil dipost", "success");');
+					redirect('admin/visi');
+			
+		 	}else{
+
+				$config['upload_path']          = './assets/upload';
+				$config['allowed_types']        = 'jpg|png|jpeg';
+		
+			$this->load->library('upload', $config);
+			if (!$this->upload->do_upload('images')){
+				$error = array('error' => $this->upload->display_errors());
+				$this->session->set_flashdata('message', 'swal("Oops!", "Upload gambar gagal", "warning" );');
+		 		redirect('admin/visi');
+			}else{
+
+
+					$data = [
+					
+						'desk' => $this->input->post('desk'),
+						'images' =>  $_FILES['images']['name'],
+					];
+
+					$this->db->where('id', $id);
+					$this->db->update('tbl_visi', $data);
+					$this->session->set_flashdata('message', 'swal("Yess!", "Data berhasil dipost", "success");');
+					redirect('admin/visi');
+
+			}
+
+		}
+
+		}
+	}
+
+
+	function hapus_visi(){
+
+		$id = $this->input->post('id');
+		$this->db->where('id', $id);
+		$this->db->delete('tbl_visi');
+		$this->session->set_flashdata('message', 'swal("Yess!", "Data berhasil dihapus", "success");');
+		redirect('admin/visi');
+	}
+
 
 		function misi(){
 
-		$data['misi'] = $this->db->get('tbl_misi')->result_array();
-		$this->load->view('template/header');
-		$this->load->view('admin/misi', $data);
-		$this->load->view('template/footer');
+		$this->load->helper(array('form', 'url'));
+		$this->form_validation->set_rules('desk', 'deksripsi', 'required|trim');
+
+		if ($this->form_validation->run() == false) {
+			$data['misi'] = $this->db->get('tbl_misi')->result_array();
+			$this->load->view('template/header');
+			$this->load->view('admin/misi', $data);
+			$this->load->view('template/footer');
+		}else{
+
+			$config['upload_path']          = './assets/upload';
+			$config['allowed_types']        = 'jpg|png|jpeg';
+			
+			$this->load->library('upload', $config);
+			if (!$this->upload->do_upload('images')){
+				$error = array('error' => $this->upload->display_errors());
+				$this->session->set_flashdata('message', 'swal("Oops!", "Upload gambar gagal", "warning" );');
+		 		redirect('admin/misi');
+		 	}else{
+
+					$data = [
+					
+						'desk' => $this->input->post('desk'),
+						'images' =>  $_FILES['images']['name'],
+					];
+
+					$this->m_data->add('tbl_misi', $data);
+					$this->session->set_flashdata('message', 'swal("Yess!", "Data berhasil dipost", "success");');
+					redirect('admin/misi');
+			 	}
+
+		}
+
+
 
 	}
+
+
+	function hapus_misi(){
+
+		$id = $this->input->post('id');
+		$this->db->where('id', $id);
+		$this->db->delete('tbl_misi');
+		$this->session->set_flashdata('message', 'swal("Yess!", "Data berhasil dihapus", "success");');
+		redirect('admin/misi');
+
+	}
+
+	function edit_misi($id){
+
+		$this->load->helper(array('form', 'url'));
+		$this->form_validation->set_rules('desk', 'deksripsi', 'required|trim');
+
+		if ($this->form_validation->run() == false) {
+			$data['misi'] = $this->db->get_where('tbl_misi',['id' => $id])->row_array();
+			$this->load->view('template/header');
+			$this->load->view('admin/edit_misi', $data);
+			$this->load->view('template/footer');
+		}else{
+
+			if ($_FILES['images']['name'] == null) {
+				
+					$data = [
+					
+						'desk' => $this->input->post('desk'),
+					];
+
+					$this->db->where('id', $id);
+					$this->db->update('tbl_misi', $data);
+					$this->session->set_flashdata('message', 'swal("Yess!", "Data berhasil dipost", "success");');
+					redirect('admin/misi');
+			
+		 	}else{
+
+				$config['upload_path']          = './assets/upload';
+				$config['allowed_types']        = 'jpg|png|jpeg';
+		
+			$this->load->library('upload', $config);
+			if (!$this->upload->do_upload('images')){
+				$error = array('error' => $this->upload->display_errors());
+				$this->session->set_flashdata('message', 'swal("Oops!", "Upload gambar gagal", "warning" );');
+		 		redirect('admin/misi');
+			}else{
+
+
+					$data = [
+					
+						'desk' => $this->input->post('desk'),
+						'images' =>  $_FILES['images']['name'],
+					];
+
+					$this->db->where('id', $id);
+					$this->db->update('tbl_misi', $data);
+					$this->session->set_flashdata('message', 'swal("Yess!", "Data berhasil dipost", "success");');
+					redirect('admin/misi');
+
+			}
+
+		}
+
+		}
+	}
+
+
+	function our_product(){
+
+		$this->load->helper(array('form', 'url'));
+		$this->form_validation->set_rules('desk', 'deksripsi', 'required|trim');
+
+		if ($this->form_validation->run() == false) {
+			$data['product'] = $this->db->get('tbl_our_product')->result_array();
+			$this->load->view('template/header');
+			$this->load->view('admin/our_product', $data);
+			$this->load->view('template/footer');
+		}else{
+
+			$config['upload_path']          = './assets/upload';
+			$config['allowed_types']        = 'jpg|png|jpeg';
+		
+			$this->load->library('upload', $config);
+			if (!$this->upload->do_upload('images')){
+				$error = array('error' => $this->upload->display_errors());
+				$this->session->set_flashdata('message', 'swal("Oops!", "Upload gambar gagal", "warning" );');
+		 		redirect('admin/our_product');
+			}else{
+
+
+					$data = [
+					
+						'desk' => $this->input->post('desk'),
+						'images' =>  $_FILES['images']['name'],
+					];
+
+				$this->m_data->add('tbl_our_product', $data);
+				$this->session->set_flashdata('message', 'swal("Yess!", "Data berhasil dipost", "success");');
+				redirect('admin/our_product');
+			}
+
+		}
+
+	}
+
+
+	function edit_our_product($id){
+
+		$this->load->helper(array('form', 'url'));
+		$this->form_validation->set_rules('desk', 'deksripsi', 'required|trim');
+
+		if ($this->form_validation->run() == false) {
+			$data['product'] = $this->db->get_where('tbl_our_product',['id' => $id])->row_array();
+			$this->load->view('template/header');
+			$this->load->view('admin/edit_our_product', $data);
+			$this->load->view('template/footer');
+		}else{
+
+			if ($_FILES['images']['name'] == null) {
+				
+					$data = [
+					
+						'desk' => $this->input->post('desk'),
+					];
+
+					$this->db->where('id', $id);
+					$this->db->update('tbl_our_product', $data);
+					$this->session->set_flashdata('message', 'swal("Yess!", "Data berhasil dipost", "success");');
+					redirect('admin/our_product');
+			
+		 	}else{
+
+				$config['upload_path']          = './assets/upload';
+				$config['allowed_types']        = 'jpg|png|jpeg';
+		
+			$this->load->library('upload', $config);
+			if (!$this->upload->do_upload('images')){
+				$error = array('error' => $this->upload->display_errors());
+				$this->session->set_flashdata('message', 'swal("Oops!", "Upload gambar gagal", "warning" );');
+		 		redirect('admin/our_product');
+			}else{
+
+
+					$data = [
+					
+						'desk' => $this->input->post('desk'),
+						'images' =>  $_FILES['images']['name'],
+					];
+
+					$this->db->where('id', $id);
+					$this->db->update('tbl_our_product', $data);
+					$this->session->set_flashdata('message', 'swal("Yess!", "Data berhasil dipost", "success");');
+					redirect('admin/our_product');
+
+			}
+
+		}
+
+		}
+	}
+
+	function hapus_our_product(){
+
+		$id = $this->input->post('id');
+		$this->db->where('id', $id);
+		$this->db->delete('tbl_our_product');
+		$this->session->set_flashdata('message', 'swal("Yess!", "Data berhasil dihapus", "success");');
+		redirect('admin/our_product');
+	}
+
+		function our_strength(){
+
+		$this->load->helper(array('form', 'url'));
+		$this->form_validation->set_rules('desk', 'deksripsi', 'required|trim');
+
+		if ($this->form_validation->run() == false) {
+			$data['product'] = $this->db->get('tbl_our_strength')->result_array();
+			$this->load->view('template/header');
+			$this->load->view('admin/our_strength', $data);
+			$this->load->view('template/footer');
+		}else{
+
+			$config['upload_path']          = './assets/upload';
+			$config['allowed_types']        = 'jpg|png|jpeg';
+		
+			$this->load->library('upload', $config);
+			if (!$this->upload->do_upload('images')){
+				$error = array('error' => $this->upload->display_errors());
+				$this->session->set_flashdata('message', 'swal("Oops!", "Upload gambar gagal", "warning" );');
+		 		redirect('admin/our_strength');
+			}else{
+
+
+					$data = [
+					
+						'desk' => $this->input->post('desk'),
+						'images' =>  $_FILES['images']['name'],
+					];
+
+				$this->m_data->add('tbl_our_strength', $data);
+				$this->session->set_flashdata('message', 'swal("Yess!", "Data berhasil dipost", "success");');
+				redirect('admin/our_strength');
+			}
+
+		}
+
+	}
+
+
+	function edit_our_strength($id){
+
+		$this->load->helper(array('form', 'url'));
+		$this->form_validation->set_rules('desk', 'deksripsi', 'required|trim');
+
+		if ($this->form_validation->run() == false) {
+			$data['strength'] = $this->db->get_where('tbl_our_strength',['id' => $id])->row_array();
+			$this->load->view('template/header');
+			$this->load->view('admin/edit_our_strength', $data);
+			$this->load->view('template/footer');
+		}else{
+
+			if ($_FILES['images']['name'] == null) {
+				
+					$data = [
+					
+						'desk' => $this->input->post('desk'),
+					];
+
+					$this->db->where('id', $id);
+					$this->db->update('tbl_our_strength', $data);
+					$this->session->set_flashdata('message', 'swal("Yess!", "Data berhasil dipost", "success");');
+					redirect('admin/our_strength');
+			
+		 	}else{
+
+				$config['upload_path']          = './assets/upload';
+				$config['allowed_types']        = 'jpg|png|jpeg';
+		
+			$this->load->library('upload', $config);
+			if (!$this->upload->do_upload('images')){
+				$error = array('error' => $this->upload->display_errors());
+				$this->session->set_flashdata('message', 'swal("Oops!", "Upload gambar gagal", "warning" );');
+		 		redirect('admin/our_strength');
+			}else{
+
+
+					$data = [
+					
+						'desk' => $this->input->post('desk'),
+						'images' =>  $_FILES['images']['name'],
+					];
+
+					$this->db->where('id', $id);
+					$this->db->update('tbl_our_strength', $data);
+					$this->session->set_flashdata('message', 'swal("Yess!", "Data berhasil dipost", "success");');
+					redirect('admin/our_strength');
+
+			}
+
+		}
+
+		}
+	}
+
+	function hapus_our_strength(){
+
+		$id = $this->input->post('id');
+		$this->db->where('id', $id);
+		$this->db->delete('tbl_our_strength');
+		$this->session->set_flashdata('message', 'swal("Yess!", "Data berhasil dihapus", "success");');
+		redirect('admin/our_strength');
+	}
+
 
 
 	function admin(){

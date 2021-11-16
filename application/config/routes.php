@@ -57,4 +57,7 @@ $route['translate_uri_dashes'] = TRUE;
 $route['admin/edit-prouct/(:any)'] = 'admin/edit_product/$1';
 $route['admin/edit-brand/(:any)'] = 'admin/edit_brand/$1';
 $route['admin/edit-slide/(:any)'] = 'admin/edit_slide/$1';
+$route['admin/edit-misi/(:any)'] = 'admin/edit_misi/$1';
+$route['admin/edit-visi/(:any)'] = 'admin/edit_visi/$1';
+$route['admin/edit-our-product/(:any)'] = 'admin/edit_our_product/$1';
 

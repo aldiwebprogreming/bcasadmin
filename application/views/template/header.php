@@ -86,10 +86,10 @@
                 <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         
-                        <a class="collapse-item" href="login.html">Our Vission</a>
-                        <a class="collapse-item" href="register.html">Our Mission</a>
-                        <a class="collapse-item" href="forgot-password.html">Our Product</a>
-                        <a class="collapse-item" href="forgot-password.html">Our Strength</a>
+                        <a class="collapse-item" href="<?= base_url('admin/visi') ?>">Our Vission</a>
+                        <a class="collapse-item" href="<?= base_url('admin/misi') ?>">Our Mission</a>
+                        <a class="collapse-item" href="<?= base_url('admin/our_product') ?>">Our Product</a>
+                        <a class="collapse-item" href="<?= base_url('admin/our_strength') ?>">Our Strength</a>
                         
                     </div>
                 </div>
