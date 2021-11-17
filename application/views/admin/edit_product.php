@@ -33,9 +33,9 @@
                                         <select name="kode_brand" class="form-control">
                                             <option><?= $det['kode_brand'] ?></option>
                                             <option disabled="">-- Pilih Brand --</option>
-                                            <option>Brand A</option>
-                                            <option>Brand B</option>
-                                            <option>Brand C</option>
+                                            <?php foreach($brand as $data){ ?>
+                                                <option value="<?= $data['kode_brand'] ?>"><?= $data['name_brand'] ?></option>
+                                            <?php } ?>
                                         </select>
                                       </div>
                             

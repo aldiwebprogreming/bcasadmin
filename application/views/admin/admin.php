@@ -29,8 +29,8 @@
                                         <tr>
 
                                             <td><?= $no++; ?></td>
-                                            <td><?= $data['name'] ?></td>
-                                            <td><?= $data['date'] ?></td>
+                                            <td><?= $data['username'] ?></td>
+                                            <td><?= $data['date_created'] ?></td>
                                             <td>
                                                  <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#exampleModal<?= $data['id'] ?>">
                                                 <i class="fas fa-trash"></i>

@@ -11,14 +11,21 @@
 			parent::__construct();
 			$this->load->library('form_validation');
 			$this->load->model('m_data');
+
+			if ($this->session->username == null) {
+				redirect('login/');
+			}
 		}
 
 
 		function index(){
 
+			$data['prdk'] = $this->m_data->get_num('tbl_product');
+			$data['brand'] = $this->m_data->get_num('tbl_brand');
+			$data['admin'] = $this->m_data->get_num('tbl_admin');
 
 			$this->load->view('template/header');
-			$this->load->view('admin/index');
+			$this->load->view('admin/index',$data);
 			$this->load->view('template/footer');
 		}
 
@@ -82,12 +89,12 @@
 			$this->load->helper(array('form', 'url'));
 			$this->form_validation->set_rules('title', 'title', 'required|trim');
 			$this->form_validation->set_rules('desk', 'description ', 'required|trim');
-			$this->form_validation->set_rules('slide', 'slide ', 'required|trim|is_unique[tbl_slide_home.slid]');
+			// $this->form_validation->set_rules('slide', 'slide ', 'required|trim|is_unique[tbl_slide_home.slid]');
 
 
 			if ($this->form_validation->run() == false) {
 				
-				$data['slide'] = $this->db->get_where('tbl_slide_home', ['id' => $id])->row_array();
+				$data['slide'] = $this->m_data->det('tbl_slide_home',$id);
 				$this->load->view('template/header');
 				$this->load->view('admin/edit_slid', $data);
 				$this->load->view('template/footer');
@@ -104,8 +111,8 @@
 
 					];
 
-					$this->db->where('id', $id);
-					$this->db->update('tbl_slide_home', $data);
+					
+					$this->m_data->update($id, 'tbl_slide_home', $data);
 					$this->session->set_flashdata('message', 'swal("Yess!", "Data berhasil diedit", "success");');
 					redirect('admin/data_slide');
 				}else{
@@ -129,8 +136,7 @@
 						'slid' => $this->input->post('slide'),
 
 					];
-					$this->db->where('id', $id);
-					$this->db->update('tbl_slide_home', $data);
+					$this->m_data->update($id, 'tbl_slide_home', $data);
 					$this->session->set_flashdata('message', 'swal("Yess!", "Data berhasil diedit", "success");');
 					redirect('admin/data_slide');
 
@@ -145,8 +151,7 @@
 		function hapus_slide(){
 
 			$id = $this->input->post('id');
-			$this->db->where('id', $id);
-			$this->db->delete('tbl_slide_home');
+			$this->m_data->hapus($id, 'tbl_slide_home');
 			$this->session->set_flashdata('message', 'swal("Yess!", "Data berhasil dihapus", "success");');
 			redirect('admin/data_slide');
 		}
@@ -170,7 +175,7 @@
 		
 			if ($this->form_validation->run() == false) {
 
-			$data['brand'] = $this->db->get('tbl_brand')->result_array();
+			$data['brand'] = $this->m_data->get_all('tbl_brand');
 
 			$this->load->view('template/header');
 			$this->load->view('admin/tambah_product', $data);
@@ -211,7 +216,8 @@
 			$this->form_validation->set_rules('title', 'title', 'required|trim');
 			if ($this->form_validation->run() == false) {
 
-				$data['det'] = $this->db->get_where('tbl_product',['id' => $id])->row_array();
+				$data['det'] = $this->m_data->det('tbl_product',$id);
+				$data['brand'] = $this->m_data->get_all('tbl_brand');
 				$this->load->view('template/header');
 				$this->load->view('admin/edit_product', $data);
 				$this->load->view('template/footer');
@@ -228,8 +234,7 @@
 
 					];
 
-					$this->db->where('id', $id);
-					$this->db->update('tbl_product', $data);
+					$this->m_data->update($id, 'tbl_product', $data);
 					$this->session->set_flashdata('message', 'swal("Yess!", "Data berhasil diedit", "success");');
 					redirect('admin/product');
 					
@@ -254,8 +259,7 @@
 
 					];
 
-					$this->db->where('id', $id);
-					$this->db->update('tbl_product', $data);
+					$this->m_data->update($id, 'tbl_product', $data);
 					$this->session->set_flashdata('message', 'swal("Yess!", "Data berhasil diedit", "success");');
 					redirect('admin/product');
 			 	}
@@ -270,8 +274,7 @@
 		function hapus_product(){
 
 			$id = $this->input->post('id');
-			$this->db->where('id', $id);
-			$this->db->delete('tbl_product');
+			$this->m_data->hapus($id, 'tbl_product');
 			$this->session->set_flashdata('message', 'swal("Yess!", "Data berhasil dihapus", "success");');
 			redirect('admin/product');
 		}
@@ -326,7 +329,7 @@
 
 
 		if ($this->form_validation->run() == false) {
-			$data['brand'] = $this->db->get_where('tbl_brand',['id' => $id])->row_array();
+			$data['brand'] = $this->m_data->det('tbl_brand',$id);
 			$this->load->view('template/header');
 			$this->load->view('admin/edit_brand', $data);
 			$this->load->view('template/footer');
@@ -338,8 +341,8 @@
 				'kode_brand' => $this->input->post('kode_brand'),
 				'name_brand' => $this->input->post('name_brand'),
 			];
-			$this->db->where('id', $id);
-			$this->db->update('tbl_brand', $data);
+			
+			$this->m_data->update($id, 'tbl_brand', $data);
 			$this->session->set_flashdata('message', 'swal("Yess!", "Data berhasil diedit", "success");');
 			redirect('admin/brand');
 
@@ -351,8 +354,7 @@
 	function hapus_brand(){
 
 		$id = $this->input->post('id');
-		$this->db->where('id', $id);
-		$this->db->delete('tbl_brand');
+		$this->m_data->hapus($id, 'tbl_brand');
 		$this->session->set_flashdata('message', 'swal("Yess!", "Data berhasil dihapus", "success");');
 		redirect('admin/brand');
 	}
@@ -406,7 +408,7 @@
 		$this->form_validation->set_rules('desk', 'deksripsi', 'required|trim');
 
 		if ($this->form_validation->run() == false) {
-			$data['visi'] = $this->db->get_where('tbl_visi',['id' => $id])->row_array();
+			$data['visi'] = $this->m_data->det('tbl_visi',$id);
 			$this->load->view('template/header');
 			$this->load->view('admin/edit_visi', $data);
 			$this->load->view('template/footer');
@@ -419,8 +421,7 @@
 						'desk' => $this->input->post('desk'),
 					];
 
-					$this->db->where('id', $id);
-					$this->db->update('tbl_visi', $data);
+					$this->m_data->update($id, 'tbl_visi', $data);
 					$this->session->set_flashdata('message', 'swal("Yess!", "Data berhasil dipost", "success");');
 					redirect('admin/visi');
 			
@@ -443,8 +444,7 @@
 						'images' =>  $_FILES['images']['name'],
 					];
 
-					$this->db->where('id', $id);
-					$this->db->update('tbl_visi', $data);
+					$this->m_data->update($id, 'tbl_visi', $data);
 					$this->session->set_flashdata('message', 'swal("Yess!", "Data berhasil dipost", "success");');
 					redirect('admin/visi');
 
@@ -459,14 +459,13 @@
 	function hapus_visi(){
 
 		$id = $this->input->post('id');
-		$this->db->where('id', $id);
-		$this->db->delete('tbl_visi');
+		$this->m_data->hapus($id, 'tbl_visi');
 		$this->session->set_flashdata('message', 'swal("Yess!", "Data berhasil dihapus", "success");');
 		redirect('admin/visi');
 	}
 
 
-		function misi(){
+	function misi(){
 
 		$this->load->helper(array('form', 'url'));
 		$this->form_validation->set_rules('desk', 'deksripsi', 'required|trim');
@@ -509,8 +508,7 @@
 	function hapus_misi(){
 
 		$id = $this->input->post('id');
-		$this->db->where('id', $id);
-		$this->db->delete('tbl_misi');
+		$this->m_data->hapus($id, 'tbl_misi');
 		$this->session->set_flashdata('message', 'swal("Yess!", "Data berhasil dihapus", "success");');
 		redirect('admin/misi');
 
@@ -522,7 +520,7 @@
 		$this->form_validation->set_rules('desk', 'deksripsi', 'required|trim');
 
 		if ($this->form_validation->run() == false) {
-			$data['misi'] = $this->db->get_where('tbl_misi',['id' => $id])->row_array();
+			$data['misi'] = $this->m_data->det('tbl_misi',$id);
 			$this->load->view('template/header');
 			$this->load->view('admin/edit_misi', $data);
 			$this->load->view('template/footer');
@@ -535,8 +533,7 @@
 						'desk' => $this->input->post('desk'),
 					];
 
-					$this->db->where('id', $id);
-					$this->db->update('tbl_misi', $data);
+					$this->m_data->update($id, 'tbl_misi', $data);
 					$this->session->set_flashdata('message', 'swal("Yess!", "Data berhasil dipost", "success");');
 					redirect('admin/misi');
 			
@@ -559,8 +556,7 @@
 						'images' =>  $_FILES['images']['name'],
 					];
 
-					$this->db->where('id', $id);
-					$this->db->update('tbl_misi', $data);
+					$this->m_data->update($id, 'tbl_misi', $data);
 					$this->session->set_flashdata('message', 'swal("Yess!", "Data berhasil dipost", "success");');
 					redirect('admin/misi');
 
@@ -617,7 +613,7 @@
 		$this->form_validation->set_rules('desk', 'deksripsi', 'required|trim');
 
 		if ($this->form_validation->run() == false) {
-			$data['product'] = $this->db->get_where('tbl_our_product',['id' => $id])->row_array();
+			$data['product'] = $this->m_data->det('tbl_our_product',$id);
 			$this->load->view('template/header');
 			$this->load->view('admin/edit_our_product', $data);
 			$this->load->view('template/footer');
@@ -630,8 +626,7 @@
 						'desk' => $this->input->post('desk'),
 					];
 
-					$this->db->where('id', $id);
-					$this->db->update('tbl_our_product', $data);
+					$this->m_data->update($id, 'tbl_our_product', $data);
 					$this->session->set_flashdata('message', 'swal("Yess!", "Data berhasil dipost", "success");');
 					redirect('admin/our_product');
 			
@@ -654,8 +649,7 @@
 						'images' =>  $_FILES['images']['name'],
 					];
 
-					$this->db->where('id', $id);
-					$this->db->update('tbl_our_product', $data);
+					$this->m_data->update($id, 'tbl_our_product', $data);
 					$this->session->set_flashdata('message', 'swal("Yess!", "Data berhasil dipost", "success");');
 					redirect('admin/our_product');
 
@@ -669,8 +663,7 @@
 	function hapus_our_product(){
 
 		$id = $this->input->post('id');
-		$this->db->where('id', $id);
-		$this->db->delete('tbl_our_product');
+		$this->m_data->hapus($id,'tbl_our_product');
 		$this->session->set_flashdata('message', 'swal("Yess!", "Data berhasil dihapus", "success");');
 		redirect('admin/our_product');
 	}
@@ -720,7 +713,7 @@
 		$this->form_validation->set_rules('desk', 'deksripsi', 'required|trim');
 
 		if ($this->form_validation->run() == false) {
-			$data['strength'] = $this->db->get_where('tbl_our_strength',['id' => $id])->row_array();
+			$data['strength'] =$this->m_data->det('tbl_our_strength',$id);
 			$this->load->view('template/header');
 			$this->load->view('admin/edit_our_strength', $data);
 			$this->load->view('template/footer');
@@ -733,8 +726,7 @@
 						'desk' => $this->input->post('desk'),
 					];
 
-					$this->db->where('id', $id);
-					$this->db->update('tbl_our_strength', $data);
+					$this->m_data->update($id, 'tbl_our_strength', $data);
 					$this->session->set_flashdata('message', 'swal("Yess!", "Data berhasil dipost", "success");');
 					redirect('admin/our_strength');
 			
@@ -757,8 +749,7 @@
 						'images' =>  $_FILES['images']['name'],
 					];
 
-					$this->db->where('id', $id);
-					$this->db->update('tbl_our_strength', $data);
+					$this->m_data->update($id, 'tbl_our_strength', $data);
 					$this->session->set_flashdata('message', 'swal("Yess!", "Data berhasil dipost", "success");');
 					redirect('admin/our_strength');
 
@@ -772,8 +763,7 @@
 	function hapus_our_strength(){
 
 		$id = $this->input->post('id');
-		$this->db->where('id', $id);
-		$this->db->delete('tbl_our_strength');
+		$this->m_data->hapus($id, 'tbl_our_strength');
 		$this->session->set_flashdata('message', 'swal("Yess!", "Data berhasil dihapus", "success");');
 		redirect('admin/our_strength');
 	}
@@ -792,7 +782,7 @@
 	function tambah_admin(){
 
 		$this->load->helper(array('form', 'url'));
-		$this->form_validation->set_rules('name', 'name', 'required|trim|min_length[4]');
+		$this->form_validation->set_rules('username', 'username', 'required|trim|min_length[4]');
 		$this->form_validation->set_rules('pass', 'password', 'required|trim|min_length[6]');	
 
 		if ($this->form_validation->run() == false) {
@@ -804,7 +794,7 @@
 
 			$data = [
 
-				'name' => $this->input->post('name'),
+				'username' => $this->input->post('username'),
 				'pass' => password_hash($this->input->post('pass'), PASSWORD_DEFAULT),
 			];
 
@@ -819,8 +809,7 @@
 	function hapus_admin(){
 
 		$id = $this->input->post('id');
-		$this->db->where('id', $id);
-		$this->db->delete('tbl_admin');
+		$this->m_data->hapus($id, 'tbl_admin');
 		$this->session->set_flashdata('message', 'swal("Yess!", "Data berhasil dihapus", "success");');
 		redirect('admin/admin');
 	}

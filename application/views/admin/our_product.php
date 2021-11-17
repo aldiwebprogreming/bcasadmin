@@ -29,7 +29,8 @@
                                         </div>
                                         <div class="form-group">
                                             <label>Images</label>
-                                            <input type="file" name="images" class="form-control" required="">
+                                            <input type="file" name="images" class="form-control" required="" id="preview_gambar">
+                                             <img src="<?= base_url('assets/img/gambar.jpg') ?>" id="gambar_nodin" width="200" alt="Preview Gambar" class="mt-2" />
                                         </div>
                            
                                   </div>

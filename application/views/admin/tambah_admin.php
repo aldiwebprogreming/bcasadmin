@@ -14,9 +14,9 @@
                                     <form method="post" action="<?= base_url('admin/tambah_admin') ?>" enctype="multipart/form-data">
                             
                                         <div class="form-group">
-                                            <label>Name</label>
-                                            <input type="text" name="name" class="form-control" placeholder="name">
-                                             <?= form_error('name', '<small class="text-danger pl-3">', '</small>'); ?>
+                                            <label>Username</label>
+                                            <input type="text" name="username" class="form-control" placeholder="username">
+                                             <?= form_error('username', '<small class="text-danger pl-3">', '</small>'); ?>
                                         </div>
 
                                         <div class="form-group">

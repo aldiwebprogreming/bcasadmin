@@ -1,7 +1,7 @@
 <footer class="sticky-footer bg-white">
                 <div class="container my-auto">
                     <div class="copyright text-center my-auto">
-                        <span>Copyright &copy; Your Website 2021</span>
+                        <span>Copyright &copy; Budijaya Cemerlang Abadisejahtera <?= date('Y') ?></span>
                     </div>
                 </div>
             </footer>
@@ -59,6 +59,62 @@
     <script src="<?= base_url('assets/') ?>vendor/datatables/dataTables.bootstrap4.min.js"></script>
     <script src="<?= base_url('assets/') ?>alert.js"></script>
     <?php echo "<script>".$this->session->flashdata('message')."</script>"?>
+    <script src="<?= base_url('assets/') ?>calender/calendar.js"></script>
+ 
+
+
+    <script>
+        function bacaGambar(input) {
+       if (input.files && input.files[0]) {
+          var reader = new FileReader();
+     
+          reader.onload = function (e) {
+              $('#gambar_nodin').attr('src', e.target.result);
+          }
+     
+          reader.readAsDataURL(input.files[0]);
+       }
+    }
+  </script>
+
+  <script>
+    $("#preview_gambar").change(function(){
+         bacaGambar(this);
+      });
+  </script>
+
+   <script>
+  function selectDate(date) {
+  $('.calendar-wrapper').updateCalendarOptions({
+    date: date
+  });
+}
+
+var defaultConfig = {
+  weekDayLength: 1,
+  date: new Date(),
+  onClickDate: selectDate,
+  showYearDropdown: true,
+};
+
+$('.calendar-wrapper').calendar(defaultConfig);
+</script>
+
+<script>
+  $(function () {
+    $("#example1").DataTable();
+    $('#example2').DataTable({
+      "paging": true,
+      "lengthChange": false,
+      "searching": false,
+      "ordering": true,
+      "info": true,
+      "autoWidth": false,
+    });
+  });
+
+
+</script>
 
 
 </body>

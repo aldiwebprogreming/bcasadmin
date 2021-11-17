@@ -2,7 +2,7 @@
 
         <div class="card shadow mb-4">
             <div class="card-header py-3">
-                <h6 class="m-0 font-weight-bold text-primary">Edit Data Missi</h6>
+                <h6 class="m-0 font-weight-bold text-primary">Edit Data Vissi</h6>
             </div>
             <div class="card-body">
                 <div class="row">
@@ -17,9 +17,9 @@
 
                             <div class="form-group">
                                 <label>Images</label>
-                                <input type="file" class="form-control" name="images">
+                                <input type="file" class="form-control" name="images" id="preview_gambar">
                                  <?= form_error('iamges', '<small class="text-danger pl-3">', '</small>'); ?>
-                                 <img class="mt-2" src="<?= base_url('assets/upload/') ?><?= $visi['images'] ?>" style="height: 100px;">
+                                <img src="<?= base_url('assets/upload/') ?><?= $visi['images'] ?>" id="gambar_nodin" width="200" alt="Preview Gambar" class="mt-2" />
                             </div>
      
                 

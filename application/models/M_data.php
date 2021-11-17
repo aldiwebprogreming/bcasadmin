@@ -16,10 +16,31 @@
 
 			return $this->db->get($table)->result_array();
 		}
+		function det($table, $id){
+
+			return $this->db->get_where($table, ['id' => $id])->row_array();
+		}
 
 		function add($table, $data){
 
 			return $this->db->insert($table, $data);
+		}
+
+		function get_num($table){
+
+			return $this->db->get($table)->num_rows();
+		}
+
+		function update($id, $table, $data){
+
+			return $this->db->update($table, $data,['id' => $id]);
+		}
+
+		function hapus($id, $table){
+
+			$this->db->where('id', $id);
+			return $this->db->delete($table);
+
 		}
 	}
 

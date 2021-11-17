@@ -21,9 +21,10 @@
 
                                         <div class="form-group">
                                             <label>Images</label>
-                                            <input type="file" class="form-control" name="images">
+                                            <input type="file" class="form-control" name="images"  id="preview_gambar">
                                              <?= form_error('iamges', '<small class="text-danger pl-3">', '</small>'); ?>
-                                             <img class="mt-2" src="<?= base_url('assets/upload/') ?><?= $misi['images'] ?>" style="height: 100px;">
+                                            
+                                            <img src="<?= base_url('assets/upload/') ?><?= $misi['images'] ?>" id="gambar_nodin" width="200" alt="Preview Gambar" class="mt-2" />
                                         </div>
                  
                             
