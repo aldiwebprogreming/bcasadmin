@@ -15,8 +15,9 @@
                                         <tr>
                                             <th>No</th>
                                             <th>Imges</th>
-                                            <th>Title product</th>
-                                            <th>Kode Brand</th>
+                                            <th>Nama Produk</th>
+                                            <th>Desk</th>
+                                            <th>Id Merek</th>
                                             <th>Opsi</th>
                                             
                                         </tr>
@@ -30,17 +31,18 @@
                                         <tr>
 
                                             <td><?= $no++; ?></td>
-                                            <td><img src="<?= base_url('assets/upload/') ?><?= $data['images'] ?>" style="height: 100px;"></td>
-                                            <td><?= $data['title_product'] ?></td>
-                                            <td><?= $data['kode_brand'] ?></td>
+                                            <td><img src="<?= base_url('assets/upload/') ?><?= $data['gambar'] ?>" style="height: 100px;"></td>
+                                            <td><?= $data['nama_produk'] ?></td>
+                                            <td><?= $data['deskripsi'] ?></td>
+                                            <td><?= $data['id_merk'] ?></td>
                                             <td>
                                                 <!-- Button trigger modal -->
-                                            <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#exampleModal<?= $data['id'] ?>">
+                                            <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#exampleModal<?= $data['id_produk'] ?>">
                                               <i class="fas fa-trash"></i>
                                             </button>
 
                                             <!-- Modal -->
-                                            <div class="modal fade" id="exampleModal<?= $data['id'] ?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                            <div class="modal fade" id="exampleModal<?= $data['id_produk'] ?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                               <div class="modal-dialog">
                                                 <div class="modal-content">
                                                   <div class="modal-header">
@@ -64,7 +66,7 @@
                                               </div>
                                             </div>
                                                 
-                                                <a href="<?= base_url('admin/edit-product/') ?><?= $data['id'] ?>" class="btn btn-primary btn-sm"><i class="fas fa-pen"></i>
+                                                <a href="<?= base_url('admin/edit-product/') ?><?= $data['alias'] ?>" class="btn btn-primary btn-sm"><i class="fas fa-pen"></i>
                                             </td>
                                         </tr>
                                         <?php } ?>

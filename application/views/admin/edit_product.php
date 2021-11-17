@@ -18,20 +18,27 @@
                                             <input type="file" name="images" class="form-control">
                                              <?= form_error('images', '<small class="text-danger pl-3">', '</small>'); ?>
 
-                                             <img src="<?= base_url('assets/upload/') ?><?= $det['images'] ?>" style="height: 100px;">
+                                             <img src="<?= base_url('assets/upload/') ?><?= $det['gambar'] ?>" style="height: 100px;">
                                         </div>
 
+                                         <div class="form-group">
+                                            <label>Nama Produk</label>
+                                            <input type="text" name="nama_produk" class="form-control" value="<?= $det['nama_produk'] ?>">
+                                             <?= form_error('nama_produk', '<small class="text-danger pl-3">', '</small>'); ?>
+                                        </div>
+                 
+
                                         <div class="form-group">
-                                            <label>Title</label>
-                                            <input type="text" class="form-control"  placeholder="title" name="title" value="<?= $det['title_product'] ?>">
-                                             <?= form_error('title', '<small class="text-danger pl-3">', '</small>'); ?>
+                                            <label>Desk</label>
+                                            <textarea class="form-control" name="desk"><?= $det['deskripsi'] ?></textarea>
+                                             <?= form_error('desk', '<small class="text-danger pl-3">', '</small>'); ?>
                                         </div>
                  
 
                                        <div class="form-group">
-                                        <label >Brand</label>
-                                        <select name="kode_brand" class="form-control">
-                                            <option><?= $det['kode_brand'] ?></option>
+                                        <label >Merk</label>
+                                        <select name="merk" class="form-control">
+                                            <option><?= $det['id_merk'] ?></option>
                                             <option disabled="">-- Pilih Brand --</option>
                                             <?php foreach($brand as $data){ ?>
                                                 <option value="<?= $data['kode_brand'] ?>"><?= $data['name_brand'] ?></option>

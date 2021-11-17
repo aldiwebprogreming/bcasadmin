@@ -159,7 +159,7 @@
 
 		function product(){
 
-			$data['product'] = $this->m_data->get_all('tbl_product');
+			$data['product'] = $this->m_data->get_all('tabel_produk');
 
 
 			$this->load->view('template/header');
@@ -210,13 +210,14 @@
 		}
 
 
-		function edit_product($id){
+		function edit_product($alias = null){
 
 			$this->load->helper(array('form', 'url'));
-			$this->form_validation->set_rules('title', 'title', 'required|trim');
+			$this->form_validation->set_rules('desk', 'deksripsi', 'required|trim');
+			$this->form_validation->set_rules('nama_produk', 'nama produk', 'required|trim');
 			if ($this->form_validation->run() == false) {
 
-				$data['det'] = $this->m_data->det('tbl_product',$id);
+				$data['det'] = $this->m_data->det_produk($alias);
 				$data['brand'] = $this->m_data->get_all('tbl_brand');
 				$this->load->view('template/header');
 				$this->load->view('admin/edit_product', $data);
@@ -229,12 +230,13 @@
 
 					$data = [
 					
-						'title_product' => $this->input->post('title'),
-						'kode_brand' => $this->input->post('kode_brand'),
+						'deskripsi' => $this->input->post('deskripsi'),
+						'nama_produk' => $this->input->post('nama_produk'),
+						'id_merk' => $this->input->post('id_merk'),
 
 					];
 
-					$this->m_data->update($id, 'tbl_product', $data);
+					$this->m_data->update_produk($alias, 'tabel_produk', $data);
 					$this->session->set_flashdata('message', 'swal("Yess!", "Data berhasil diedit", "success");');
 					redirect('admin/product');
 					
@@ -253,13 +255,15 @@
 
 					$data = [
 					
-						'title_product' => $this->input->post('title'),
-						'images' =>  $_FILES['images']['name'],
-						'kode_brand' => $this->input->post('kode_brand'),
-
+						
+						'deskripsi' => $this->input->post('deskripsi'),
+						'nama_produk' => $this->input->post('nama_produk'),
+						'id_merk' => $this->input->post('id_merk'),
+						'gambar' =>  $_FILES['images']['name'],
+						
 					];
 
-					$this->m_data->update($id, 'tbl_product', $data);
+					$this->m_data->update_produk($alias, 'tabel_produk', $data);
 					$this->session->set_flashdata('message', 'swal("Yess!", "Data berhasil diedit", "success");');
 					redirect('admin/product');
 			 	}

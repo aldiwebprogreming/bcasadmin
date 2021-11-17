@@ -42,6 +42,16 @@
 			return $this->db->delete($table);
 
 		}
+
+		function det_produk($alias){
+
+			return $this->db->get_where('tabel_produk', ['alias' => $alias])->row_array();
+		}
+
+		function update_produk($alias, $table, $data){
+
+			return $this->db->update($table, $data,['alias' => $alias]);
+		}
 	}
 
  ?>
