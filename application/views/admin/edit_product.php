@@ -15,10 +15,10 @@
 
                                         <div class="form-group">
                                             <label>Images</label>
-                                            <input type="file" name="images" class="form-control">
+                                            <input type="file" name="images" class="form-control" id="preview_gambar">
                                              <?= form_error('images', '<small class="text-danger pl-3">', '</small>'); ?>
 
-                                             <img src="<?= base_url('assets/upload/') ?><?= $det['gambar'] ?>" style="height: 100px;">
+                                             <img src="<?= base_url('assets/upload/') ?><?= $det['gambar'] ?>" id="gambar_nodin" style="height: 100px;" class="mt-3">
                                         </div>
 
                                          <div class="form-group">
@@ -37,7 +37,7 @@
 
                                        <div class="form-group">
                                         <label >Merk</label>
-                                        <select name="merk" class="form-control">
+                                        <select name="id_merk" class="form-control">
                                             <option><?= $det['id_merk'] ?></option>
                                             <option disabled="">-- Pilih Brand --</option>
                                             <?php foreach($brand as $data){ ?>

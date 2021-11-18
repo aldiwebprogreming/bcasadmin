@@ -22,6 +22,7 @@
     <link href="<?= base_url('assets/') ?>vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
     <link rel="stylesheet" href="<?= base_url('assets/')  ?>calender/style.css">
     <link rel="stylesheet" href="<?= base_url('assets/')  ?>calender/theme.css">
+    <link rel="stylesheet" href="<?= base_url('assets/') ?>summernote/summernote-bs4.min.css">
 
 </head>
 

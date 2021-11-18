@@ -14,12 +14,12 @@
                                     <form method="post" action="<?= base_url('admin/tambah_slide') ?>" enctype="multipart/form-data">
                                       <div class="form-group">
                                         <label>Title</label>
-                                        <input type="text" class="form-control"  placeholder="title" name="title">
+                                        <input type="text" class="form-control"  placeholder="" name="title" value="<?php echo set_value('title'); ?>">
                                          <?= form_error('title', '<small class="text-danger pl-3">', '</small>'); ?>
                                       </div>
                                       <div class="form-group">
                                         <label for="exampleInputPassword1">Deks</label>
-                                         <textarea class="form-control" name="desk" ></textarea>
+                                         <textarea class="form-control" name="desk" ><?php echo set_value('desk'); ?></textarea>
                                           <?= form_error('deks', '<small class="text-danger pl-3">', '</small>'); ?>
                                       </div>
 
@@ -38,7 +38,11 @@
                                             <option>Slide 2</option>
                                             <option>Slide 3</option>
                                         </select>
+                                         <?= form_error('slide', '<small class="text-danger pl-3">', '</small>'); ?>
                                       </div>
+
+
+
                             
                                       <button type="submit" class="btn btn-primary">Submit</button>
                                     </form>

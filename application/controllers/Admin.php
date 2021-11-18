@@ -20,7 +20,7 @@
 
 		function index(){
 
-			$data['prdk'] = $this->m_data->get_num('tbl_product');
+			$data['prdk'] = $this->m_data->get_num('tabel_produk');
 			$data['brand'] = $this->m_data->get_num('tbl_brand');
 			$data['admin'] = $this->m_data->get_num('tbl_admin');
 
@@ -170,7 +170,8 @@
 		function tambah_product(){
 
 			$this->load->helper(array('form', 'url'));
-			$this->form_validation->set_rules('title', 'title', 'required|trim');
+			$this->form_validation->set_rules('nama_produk', 'nama produk', 'required|trim');
+			// $this->form_validation->set_rules('desk', 'deskripsi', 'required|trim');
 			// $this->form_validation->set_rules('images', 'images ', 'required|trim');
 		
 			if ($this->form_validation->run() == false) {
@@ -194,15 +195,22 @@
 			 		redirect('admin/product');
 			 	}else{
 
+
+			 		  $alias = $this->input->post('nama_produk');
+			 		  $text = strtolower(trim($alias));
+   					  $text = str_replace(' ', '-', $text);
+
 					$data = [
 					
-						'title_product' => $this->input->post('title'),
-						'images' =>  $_FILES['images']['name'],
-						'kode_brand' => $this->input->post('kode_brand'),
+						'nama_produk' => $this->input->post('nama_produk'),
+						'deskripsi' => $this->input->post('desk'),
+						'alias' => $text,
+						'gambar' =>  $_FILES['images']['name'],
+						'id_merk' => $this->input->post('id_merk'),
 
 					];
 
-					$this->m_data->add('tbl_product', $data);
+					$this->m_data->add('tabel_produk', $data);
 					$this->session->set_flashdata('message', 'swal("Yess!", "Data berhasil dipost", "success");');
 					redirect('admin/product');
 			 	}
@@ -230,7 +238,7 @@
 
 					$data = [
 					
-						'deskripsi' => $this->input->post('deskripsi'),
+						'deskripsi' => $this->input->post('desk'),
 						'nama_produk' => $this->input->post('nama_produk'),
 						'id_merk' => $this->input->post('id_merk'),
 
@@ -256,7 +264,7 @@
 					$data = [
 					
 						
-						'deskripsi' => $this->input->post('deskripsi'),
+						'deskripsi' => $this->input->post('desk'),
 						'nama_produk' => $this->input->post('nama_produk'),
 						'id_merk' => $this->input->post('id_merk'),
 						'gambar' =>  $_FILES['images']['name'],
@@ -278,7 +286,8 @@
 		function hapus_product(){
 
 			$id = $this->input->post('id');
-			$this->m_data->hapus($id, 'tbl_product');
+			$this->db->where('id_produk', $id);
+			$this->db->delete('tabel_produk');
 			$this->session->set_flashdata('message', 'swal("Yess!", "Data berhasil dihapus", "success");');
 			redirect('admin/product');
 		}

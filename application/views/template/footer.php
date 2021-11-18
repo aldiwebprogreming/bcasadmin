@@ -57,6 +57,8 @@
     <script src="<?= base_url('assets/') ?>js/demo/datatables-demo.js"></script>
     <script src="<?= base_url('assets/') ?>vendor/datatables/jquery.dataTables.min.js"></script>
     <script src="<?= base_url('assets/') ?>vendor/datatables/dataTables.bootstrap4.min.js"></script>
+    <script src="<?= base_url('assets/') ?>summernote/summernote-bs4.min.js"></script>
+
     <script src="<?= base_url('assets/') ?>alert.js"></script>
     <?php echo "<script>".$this->session->flashdata('message')."</script>"?>
     <script src="<?= base_url('assets/') ?>calender/calendar.js"></script>
@@ -115,6 +117,8 @@ $('.calendar-wrapper').calendar(defaultConfig);
 
 
 </script>
+
+
 
 
 </body>
