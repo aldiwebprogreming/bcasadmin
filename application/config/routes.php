@@ -65,4 +65,6 @@ $route['admin/edit-slide/(:any)'] = 'admin/edit_slide/$1';
 $route['admin/edit-misi/(:any)'] = 'admin/edit_misi/$1';
 $route['admin/edit-visi/(:any)'] = 'admin/edit_visi/$1';
 $route['admin/edit-our-product/(:any)'] = 'admin/edit_our_product/$1';
+$route['admin/edit-contact/(:any)'] = 'admin/edit_contact/$1';
+
 

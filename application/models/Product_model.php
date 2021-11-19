@@ -32,5 +32,10 @@ class Product_model extends CI_Model
 
 		return $this->db->get($table)->result_array();
 	}
+
+	function add($table, $data){
+
+		return $this->db->insert($table, $data);
+	}
 	
 }

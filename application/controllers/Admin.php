@@ -782,6 +782,89 @@
 	}
 
 
+	function contact(){
+
+		$data['contact'] = $this->m_data->get_all('tbl_contact');
+		$this->load->view('template/header');
+		$this->load->view('admin/contact', $data);
+		$this->load->view('template/footer');
+
+		$kirim = $this->input->post('kirim');
+		if (isset($kirim)) {
+			
+			$data = [
+
+				'address' => $this->input->post('address'),
+				'phone' => $this->input->post('phone'),
+				'email' => $this->input->post('email'),
+				'web' => $this->input->post('web'),
+				'open' => $this->input->post('open'),
+				'maps' => $this->input->post('maps'),
+
+			];
+
+			$this->m_data->add('tbl_contact', $data);
+			$this->session->set_flashdata('message', 'swal("Yess!", "Data berhasil dipost", "success");');
+			redirect('admin/contact');
+
+		}
+
+	}
+
+	function hapus_contact(){
+
+		$id = $this->input->post('id');
+		$this->m_data->hapus($id, 'tbl_contact');
+		$this->session->set_flashdata('message', 'swal("Yess!", "Data berhasil dihapus", "success");');
+		redirect('admin/contact');
+	}
+
+
+	function edit_contact($id){
+		$data['contact'] = $this->db->get_where('tbl_contact',['id' => $id])->row_array();
+		$this->load->view('template/header');
+		$this->load->view('admin/edit_contact', $data);
+		$this->load->view('template/footer');
+
+		$edit = $this->input->post('edit');
+		if (isset($edit)) {
+			
+			$data = [
+
+				'address' => $this->input->post('address'),
+				'phone' => $this->input->post('phone'),
+				'email' => $this->input->post('email'),
+				'web' => $this->input->post('web'),
+				'open' => $this->input->post('open'),
+				'maps' => $this->input->post('maps'),
+
+			];
+
+			$this->m_data->update($id, 'tbl_contact', $data);
+			$this->session->set_flashdata('message', 'swal("Yess!", "Data berhasil diedit", "success");');
+			redirect('admin/contact');
+		}
+
+	}
+
+
+	function pesan(){
+
+		$data['pesan'] = $this->m_data->get_all('tbl_pesan');
+		$this->load->view('template/header');
+		$this->load->view('admin/pesan', $data);
+		$this->load->view('template/footer');
+	}
+
+	function hapus_pesan(){
+
+		$id = $this->input->post('id');
+		$this->m_data->hapus($id, 'tbl_pesan');
+		$this->session->set_flashdata('message', 'swal("Yess!", "Data berhasil dihapus", "success");');
+		redirect('admin/pesan');
+	}
+
+
 
 	function admin(){
 

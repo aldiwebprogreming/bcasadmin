@@ -76,11 +76,11 @@
 
                                         <div class="col-md-6">
                                             <address class="address-style-2">
-                                                <span><strong>Address:</strong>Jl. Sangir Talaud I KIM IV RT.000 RW.000, Pematang Johar, Labuhan Deli</span>
-                                                <span><strong>Phone:</strong>(208) 333 9296</span>
-                                                <span><strong>Email:</strong><a href="mailto:cs@bcasejahtera.com">cs@bcasejahtera.com</a></span>
-                                                <span><strong>Web:</strong><a href="#test">http://bcasejahtera.com</a></span>
-                                                <span><strong>Open</strong>Sunday - Friday 08:00 - 17:00</span>
+                                                <span><strong>Address:</strong><?= $data['address'] ?></span>
+                                                <span><strong>Phone:</strong><?= $data['phone'] ?></span>
+                                                <span><strong>Email:</strong><a href="mailto:<?= $data['email'] ?>"><?= $data['email'] ?></a></span>
+                                                <span><strong>Web:</strong><a href="#"><?= $data['web'] ?></a></span>
+                                                <span><strong>Open</strong><?= $data['open'] ?></span>
                                             </address>
                                         </div>
                                     </div>
@@ -98,17 +98,17 @@
                             <h3>Send Us Message
 							<span class="tiny-border"></span>
                             </h3>
-                            <form name="contactForm" id='contact_form' method="post" action='email.php'>
+                            <form name="contactForm" id='contact_form' method="post" action="<?= base_url('frontend/pesan') ?>">
                                 <div class="row">
                                     <div class="col-md-12">
                                         <div id='name_error' class='error'>Please enter your name.</div>
                                         <div>
-                                            <input type='text' name='name' id='name' class="form-control" placeholder="Your Name">
+                                            <input type='text'  id='name' name="nama" class="form-control" placeholder="Your Name">
                                         </div>
 
                                         <div id='email_error' class='error'>Please enter your valid E-mail ID.</div>
                                         <div>
-                                            <input type='text' name='email' id='email' class="form-control" placeholder="Your Email">
+                                            <input type='email' name='email' id='email' class="form-control" placeholder="Your Email">
                                         </div>
 
                                         <div id='phone_error' class='error'>Please enter your phone number.</div>
@@ -118,18 +118,18 @@
 										
 										<div id='company_name' class='error'>Please enter your Company Name.</div>
                                         <div>
-                                            <input type='text' name='company_name' id='company_name' class="form-control" placeholder="Company Name">
+                                            <input type='text' name='nama_usaha' id='company_name' class="form-control" placeholder="Company Name">
                                         </div>
 
                                         <div id='message_error' class='error'>Please enter your message.</div>
                                         <div>
-                                            <textarea name='message' id='message' class="form-control" placeholder="Your Message"></textarea>
+                                            <textarea name='pesan' id='message' class="form-control" placeholder="Your Message"></textarea>
                                         </div>
                                     </div>
 
                                     <div class="col-md-12">
                                         <div id='submit'>
-                                            <input type='submit' id='send_message' value='Submit Form' class="btn btn-line">
+                                            <input type='submit' name="kirim"  value='Submit Form' class="btn btn-line">
                                         </div>
                                         <div id='mail_success' class='success'>Your message has been sent successfully.</div>
                                         <div id='mail_fail' class='error'>Sorry, error occured this time sending your message.</div>
@@ -182,6 +182,8 @@
     <script type="text/javascript" src="<?php echo base_url('assetsFront/revolution/js/extensions/revolution.extension.kenburn.min.js') ?>"></script>
     <script type="text/javascript" src="<?php echo base_url('assetsFront/revolution/js/extensions/revolution.extension.migration.min.js') ?>"></script>
     <script type="text/javascript" src="<?php echo base_url('assetsFront/revolution/js/extensions/revolution.extension.parallax.min.js') ?>"></script>
+     <script src="<?= base_url('assets/') ?>alert.js"></script>
+    <?php echo "<script>".$this->session->flashdata('message')."</script>"?>
 
 </body>
 </html>

@@ -137,6 +137,22 @@
                     <span> Tambah Brend</span>
                 </a>
             </li>
+              <hr class="sidebar-divider">
+
+             <div class="sidebar-heading">
+                Contact
+            </div>
+              <li class="nav-item">
+                <a class="nav-link" href="<?= base_url('admin/contact') ?>">
+                    <i class="fas fa-phone"></i>
+                    <span> Data Contact</span></a>
+
+                <a class="nav-link" href="<?= base_url('admin/pesan') ?>">
+                    <i class="fas fa-envelope-open"></i>
+                    <span> Pesan</span></a>
+
+                
+            </li>
 
              <hr class="sidebar-divider">
 

@@ -254,16 +254,16 @@
                                 <div class="row">
                                     <div class="col-md-6">
                                         <h3>Our Strength</h3>
-                                        <p>Start strong in 2021 with over 15-years experinced solution-provider team, BCAS will continuously growth on trust form our customers, provide solution for green working environment, increase huge-profit from our high-standart machineries, and refining innovation for integrated processs and control.</p>
+                                        <p><?=  $strength['desk'] ?></p>
 										<h3>Out Products</h3>
-										<p>From Integrated Automation System to Empty Bunch Press, these products are specially designed to Boost your profit at Palm oil mills, in addition, we have Robust Mixer Agitator and Sturdy Flexible Hose are "Free-worries" products for your refineries, Bulking and Oleo-chemical Plant, pulp & apper and sugar</p>
+										<p><?= $product['desk'] ?></p>
                                     </div>
 
                                     <div class="col-md-6">
                                         <h3>Our Vision</h3>
-                                        <p>YOUR PARTNER FOR GREEN AND PROFIT SOLUTION</p>
+                                        <p><?= $visi['desk'] ?></p>
                                         <h3>Our Mission</h3>
-										<p>Always provide our customers with profitable-owned machineries, helping to solution, offering state-of-the-art technologies, providing highest-standart services, competitive pricing, and innovative control solutions. We always welcome to solve any unsolved problems at your processing plant in order to achieve the highest trust and exceed customer satisfaction level</p>
+										<p><?= $misi['desk'] ?></p>
                                     </div>
                                 </div>
                             </div>
