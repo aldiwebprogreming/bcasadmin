@@ -20,7 +20,7 @@
                                       <div class="form-group">
                                         <label for="exampleInputPassword1">Deks</label>
                                          <textarea class="form-control" name="desk" ><?php echo set_value('desk'); ?></textarea>
-                                          <?= form_error('deks', '<small class="text-danger pl-3">', '</small>'); ?>
+                                          <?= form_error('desk', '<small class="text-danger pl-3">', '</small>'); ?>
                                       </div>
 
                                       <div class="form-group">

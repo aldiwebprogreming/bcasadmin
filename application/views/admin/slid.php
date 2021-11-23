@@ -49,6 +49,7 @@
                                                     Apakah anda ingin menghapus data ini?
                                                     <form method="post" action="<?= base_url('admin/hapus_slide') ?>">
                                                         <input type="hidden" name="id" value="<?= $data['id'] ?>">
+                                                        <input type="text" name="images" value="<?= $data['images'] ?>">
                                                    
                                                   </div>
                                                   <div class="modal-footer">

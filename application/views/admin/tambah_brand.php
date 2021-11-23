@@ -25,7 +25,7 @@
                                         <div class="form-group">
                                             <label>Name Brand</label>
                                             <input type="text" class="form-control" placeholder="Name brand" name="name_brand">
-                                             <?= form_error('title', '<small class="text-danger pl-3">', '</small>'); ?>
+                                             <?= form_error('name_brand', '<small class="text-danger pl-3">', '</small>'); ?>
                                         </div>
                  
                             

@@ -23,6 +23,8 @@
 
 		function add($table, $data){
 
+
+
 			return $this->db->insert($table, $data);
 		}
 
@@ -52,6 +54,7 @@
 
 			return $this->db->update($table, $data,['alias' => $alias]);
 		}
+
 	}
 
  ?>

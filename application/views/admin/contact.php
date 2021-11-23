@@ -15,32 +15,38 @@
                                 <form method="post" action="" enctype="multipart/form-data">
                                     <div class="form-group">
                                         <label>Address</label>
-                                        <textarea class="form-control" name="address" required=""></textarea>
+                                        <textarea class="form-control" name="address"><?php echo set_value('address'); ?></textarea>
+                                        <?= form_error('address', '<small class="text-danger pl-3">', '</small>'); ?>
                                     </div>
 
                                     <div class="form-group">
                                         <label>Phone</label>
-                                       <input type="text" name="phone" class="form-control" required="">
+                                       <input type="text" name="phone" class="form-control" value="<?= set_value('phone') ?>">
+                                       <?= form_error('phone', '<small class="text-danger pl-3">', '</small>'); ?>
                                     </div>
 
                                      <div class="form-group">
                                         <label>Email</label>
-                                       <input type="email" name="email" class="form-control" required="">
+                                       <input type="email" name="email" class="form-control" value="<?= set_value('email') ?>">
+                                       <?= form_error('email', '<small class="text-danger pl-3">', '</small>'); ?>
                                     </div>
 
                                      <div class="form-group">
                                         <label>Website</label>
-                                      <textarea class="form-control" name="web" required=""></textarea>
+                                      <textarea class="form-control" name="web"><?= set_value('web') ?></textarea>
+                                       <?= form_error('web', '<small class="text-danger pl-3">', '</small>'); ?>
                                     </div>
 
                                      <div class="form-group">
                                         <label>Open</label>
-                                       <input type="text" name="open" class="form-control" required="">
+                                       <input type="text" name="open" class="form-control" value="<?= set_value('open') ?>">
+                                        <?= form_error('open', '<small class="text-danger pl-3">', '</small>'); ?>
                                     </div>
 
                                      <div class="form-group">
                                         <label>Maps</label>
-                                        <textarea class="form-control" name="maps" required=""></textarea>
+                                        <textarea class="form-control" name="maps"><?= set_value('maps') ?></textarea>
+                                         <?= form_error('maps', '<small class="text-danger pl-3">', '</small>'); ?>
                                     </div>
                                     
                        

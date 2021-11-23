@@ -11,6 +11,7 @@
 			parent::__construct();
 			$this->load->library('form_validation');
 			$this->load->model('m_data');
+			$this->load->model('m_valid');
 
 			if ($this->session->username == null) {
 				redirect('login/');
@@ -41,11 +42,8 @@
 
 		function tambah_slide(){
 
-			$this->load->helper(array('form', 'url'));
-			$this->form_validation->set_rules('title', 'title', 'required|trim');
-			$this->form_validation->set_rules('desk', 'description ', 'required|trim');
-			$this->form_validation->set_rules('slide', 'slide ', 'required|trim|is_unique[tbl_slide_home.slid]');
-
+			$this->form_validation->set_rules($this->m_valid->valid_slide());
+			
 			if ($this->form_validation->run() == false) {
 				
 				$this->load->view('template/header');
@@ -55,6 +53,7 @@
 
 				$config['upload_path']          = './assets/upload';
 				$config['allowed_types']        = 'jpg|png|jpeg';
+				$config['remove_spaces']        = true;
 			
 
 				$this->load->library('upload', $config);
@@ -64,11 +63,15 @@
 			 		redirect('admin/data_slide');
 			 	}else{
 
+			 		  $gambar = $_FILES['images']['name'];
+   					  $name = strtolower(trim($gambar));
+   					  $images = str_replace(' ', '_', $name);
+
 					$data = [
 					
 						'title' => $this->input->post('title'),
 						'desk' => $this->input->post('desk'),
-						'images' =>  $_FILES['images']['name'],
+						'images' => $images,
 						'slid' => $this->input->post('slide'),
 
 					];
@@ -86,12 +89,8 @@
 
 		function edit_slide($id){
 
-			$this->load->helper(array('form', 'url'));
-			$this->form_validation->set_rules('title', 'title', 'required|trim');
-			$this->form_validation->set_rules('desk', 'description ', 'required|trim');
-			// $this->form_validation->set_rules('slide', 'slide ', 'required|trim|is_unique[tbl_slide_home.slid]');
-
-
+		
+			$this->form_validation->set_rules($this->m_valid->valid_slide());
 			if ($this->form_validation->run() == false) {
 				
 				$data['slide'] = $this->m_data->det('tbl_slide_home',$id);
@@ -119,6 +118,7 @@
 
 				$config['upload_path']          = './assets/upload';
 				$config['allowed_types']        = 'jpg|png|jpeg';
+				$config['remove_spaces']        = true;
 			
 
 				$this->load->library('upload', $config);
@@ -128,11 +128,15 @@
 			 		redirect('admin/data_slide');
 			 	}else{
 
+			 		  $gambar = $_FILES['images']['name'];
+   					  $name = strtolower(trim($gambar));
+   					  $images = str_replace(' ', '_', $name);
+
 					$data = [
 					
 						'title' => $this->input->post('title'),
 						'desk' => $this->input->post('desk'),
-						'images' =>  $_FILES['images']['name'],
+						'images' =>  $images,
 						'slid' => $this->input->post('slide'),
 
 					];
@@ -151,6 +155,9 @@
 		function hapus_slide(){
 
 			$id = $this->input->post('id');
+			$images = $this->input->post('images');
+			
+			unlink('assets/upload/'.$images);
 			$this->m_data->hapus($id, 'tbl_slide_home');
 			$this->session->set_flashdata('message', 'swal("Yess!", "Data berhasil dihapus", "success");');
 			redirect('admin/data_slide');
@@ -169,10 +176,8 @@
 
 		function tambah_product(){
 
-			$this->load->helper(array('form', 'url'));
-			$this->form_validation->set_rules('nama_produk', 'nama produk', 'required|trim');
-			// $this->form_validation->set_rules('desk', 'deskripsi', 'required|trim');
-			// $this->form_validation->set_rules('images', 'images ', 'required|trim');
+			
+			$this->form_validation->set_rules($this->m_valid->valid_produk());
 		
 			if ($this->form_validation->run() == false) {
 
@@ -186,6 +191,8 @@
 
 				$config['upload_path']          = './assets/upload';
 				$config['allowed_types']        = 'jpg|png|jpeg';
+				$config['remove_spaces']        = true;
+				
 			
 
 				$this->load->library('upload', $config);
@@ -200,12 +207,16 @@
 			 		  $text = strtolower(trim($alias));
    					  $text = str_replace(' ', '-', $text);
 
+   					  $gambar = $_FILES['images']['name'];
+   					  $name = strtolower(trim($gambar));
+   					  $images = str_replace(' ', '_', $name);
+
 					$data = [
 					
 						'nama_produk' => $this->input->post('nama_produk'),
 						'deskripsi' => $this->input->post('desk'),
 						'alias' => $text,
-						'gambar' =>  $_FILES['images']['name'],
+						'gambar' =>  $images,
 						'id_merk' => $this->input->post('id_merk'),
 
 					];
@@ -220,9 +231,7 @@
 
 		function edit_product($alias = null){
 
-			$this->load->helper(array('form', 'url'));
-			$this->form_validation->set_rules('desk', 'deksripsi', 'required|trim');
-			$this->form_validation->set_rules('nama_produk', 'nama produk', 'required|trim');
+			$this->form_validation->set_rules($this->m_valid->valid_editproduk());
 			if ($this->form_validation->run() == false) {
 
 				$data['det'] = $this->m_data->det_produk($alias);
@@ -236,10 +245,18 @@
 
 				if ($file == null) {
 
+					 $alias = $this->input->post('nama_produk');
+			 		 $text = strtolower(trim($alias));
+   					 $text = str_replace(' ', '-', $text);
+
+
+
+
 					$data = [
 					
 						'deskripsi' => $this->input->post('desk'),
 						'nama_produk' => $this->input->post('nama_produk'),
+						'alias' => $text,
 						'id_merk' => $this->input->post('id_merk'),
 
 					];
@@ -252,6 +269,10 @@
 
 				$config['upload_path']          = './assets/upload';
 				$config['allowed_types']        = 'jpg|png|jpeg';
+				$config['remove_spaces']        = true;
+
+
+
 			
 
 				$this->load->library('upload', $config);
@@ -261,13 +282,22 @@
 			 		redirect('admin/product');
 			 	}else{
 
+			 		 $alias = $this->input->post('nama_produk');
+			 		 $text = strtolower(trim($alias));
+   					 $text = str_replace(' ', '-', $text);
+
+   					  $gambar = $_FILES['images']['name'];
+   					  $name = strtolower(trim($gambar));
+   					  $images = str_replace(' ', '_', $name);
+
 					$data = [
 					
 						
 						'deskripsi' => $this->input->post('desk'),
 						'nama_produk' => $this->input->post('nama_produk'),
+						'alias' => $text,
 						'id_merk' => $this->input->post('id_merk'),
-						'gambar' =>  $_FILES['images']['name'],
+						'gambar' =>  $images,
 						
 					];
 
@@ -286,6 +316,8 @@
 		function hapus_product(){
 
 			$id = $this->input->post('id');
+			$images = $this->input->post('images');
+			unlink('assets/upload/'.$images);
 			$this->db->where('id_produk', $id);
 			$this->db->delete('tabel_produk');
 			$this->session->set_flashdata('message', 'swal("Yess!", "Data berhasil dihapus", "success");');
@@ -306,10 +338,7 @@
 
 	function tambah_brand(){
 
-		$this->load->helper(array('form', 'url'));
-		$this->form_validation->set_rules('kode_brand', 'kode brand', 'required|trim');
-		$this->form_validation->set_rules('name_brand', 'name brand', 'required|trim');
-
+		$this->form_validation->set_rules($this->m_valid->valid_brand());
 
 		if ($this->form_validation->run() == false) {
 
@@ -336,10 +365,7 @@
 
 	function edit_brand($id){
 
-		$this->load->helper(array('form', 'url'));
-		$this->form_validation->set_rules('kode_brand', 'kode brand', 'required|trim');
-		$this->form_validation->set_rules('name_brand', 'name brand', 'required|trim');
-
+		$this->form_validation->set_rules($this->m_valid->valid_brand());
 
 		if ($this->form_validation->run() == false) {
 			$data['brand'] = $this->m_data->det('tbl_brand',$id);
@@ -377,7 +403,7 @@
 	function visi(){
 
 		$this->load->helper(array('form', 'url'));
-		$this->form_validation->set_rules('desk', 'deksripsi', 'required|trim');
+		$this->form_validation->set_rules($this->m_valid->valid_visi());
 
 		if ($this->form_validation->run() == false) {
 			
@@ -389,6 +415,7 @@
 
 			$config['upload_path']          = './assets/upload';
 			$config['allowed_types']        = 'jpg|png|jpeg';
+			$config['remove_spaces']        = true;
 			
 			$this->load->library('upload', $config);
 			if (!$this->upload->do_upload('images')){
@@ -396,6 +423,10 @@
 				$this->session->set_flashdata('message', 'swal("Oops!", "Upload gambar gagal", "warning" );');
 		 		redirect('admin/visi');
 		 	}else{
+
+ 			  $gambar = $_FILES['images']['name'];
+			  $name = strtolower(trim($gambar));
+			  $images = str_replace(' ', '_', $name);
 
 	 			$data = [
 				
@@ -417,8 +448,8 @@
 
 	function edit_visi($id){
 
-		$this->load->helper(array('form', 'url'));
-		$this->form_validation->set_rules('desk', 'deksripsi', 'required|trim');
+	
+		$this->form_validation->set_rules($this->m_valid->valid_visi());
 
 		if ($this->form_validation->run() == false) {
 			$data['visi'] = $this->m_data->det('tbl_visi',$id);
@@ -442,6 +473,7 @@
 
 				$config['upload_path']          = './assets/upload';
 				$config['allowed_types']        = 'jpg|png|jpeg';
+				$config['remove_spaces']        = true;
 		
 			$this->load->library('upload', $config);
 			if (!$this->upload->do_upload('images')){
@@ -450,11 +482,14 @@
 		 		redirect('admin/visi');
 			}else{
 
+				 $gambar = $_FILES['images']['name'];
+				 $name = strtolower(trim($gambar));
+				 $images = str_replace(' ', '_', $name);
 
 					$data = [
 					
 						'desk' => $this->input->post('desk'),
-						'images' =>  $_FILES['images']['name'],
+						'images' =>  $images
 					];
 
 					$this->m_data->update($id, 'tbl_visi', $data);
@@ -480,8 +515,7 @@
 
 	function misi(){
 
-		$this->load->helper(array('form', 'url'));
-		$this->form_validation->set_rules('desk', 'deksripsi', 'required|trim');
+		$this->form_validation->set_rules($this->m_valid->valid_misi());
 
 		if ($this->form_validation->run() == false) {
 			$data['misi'] = $this->db->get('tbl_misi')->result_array();
@@ -492,6 +526,7 @@
 
 			$config['upload_path']          = './assets/upload';
 			$config['allowed_types']        = 'jpg|png|jpeg';
+			$config['remove_spaces']        = true;
 			
 			$this->load->library('upload', $config);
 			if (!$this->upload->do_upload('images')){
@@ -500,10 +535,15 @@
 		 		redirect('admin/misi');
 		 	}else{
 
+		 		$gambar = $_FILES['images']['name'];
+				 $name = strtolower(trim($gambar));
+				 $images = str_replace(' ', '_', $name);
+
+
 					$data = [
 					
 						'desk' => $this->input->post('desk'),
-						'images' =>  $_FILES['images']['name'],
+						'images' =>  $images,
 					];
 
 					$this->m_data->add('tbl_misi', $data);
@@ -529,8 +569,8 @@
 
 	function edit_misi($id){
 
-		$this->load->helper(array('form', 'url'));
-		$this->form_validation->set_rules('desk', 'deksripsi', 'required|trim');
+		
+		$this->form_validation->set_rules($this->m_valid->valid_misi());
 
 		if ($this->form_validation->run() == false) {
 			$data['misi'] = $this->m_data->det('tbl_misi',$id);
@@ -554,6 +594,7 @@
 
 				$config['upload_path']          = './assets/upload';
 				$config['allowed_types']        = 'jpg|png|jpeg';
+				$config['remove_spaces']        = true;
 		
 			$this->load->library('upload', $config);
 			if (!$this->upload->do_upload('images')){
@@ -563,10 +604,15 @@
 			}else{
 
 
+				$gambar = $_FILES['images']['name'];
+				$name = strtolower(trim($gambar));
+				$images = str_replace(' ', '_', $name);
+
+
 					$data = [
 					
 						'desk' => $this->input->post('desk'),
-						'images' =>  $_FILES['images']['name'],
+						'images' =>  $images,
 					];
 
 					$this->m_data->update($id, 'tbl_misi', $data);
@@ -583,8 +629,7 @@
 
 	function our_product(){
 
-		$this->load->helper(array('form', 'url'));
-		$this->form_validation->set_rules('desk', 'deksripsi', 'required|trim');
+			$this->form_validation->set_rules($this->m_valid->valid_ourProduk());
 
 		if ($this->form_validation->run() == false) {
 			$data['product'] = $this->db->get('tbl_our_product')->result_array();
@@ -595,6 +640,7 @@
 
 			$config['upload_path']          = './assets/upload';
 			$config['allowed_types']        = 'jpg|png|jpeg';
+			$config['remove_spaces']        = true;
 		
 			$this->load->library('upload', $config);
 			if (!$this->upload->do_upload('images')){
@@ -603,11 +649,15 @@
 		 		redirect('admin/our_product');
 			}else{
 
+				$gambar = $_FILES['images']['name'];
+				$name = strtolower(trim($gambar));
+				$images = str_replace(' ', '_', $name);
+
 
 					$data = [
 					
 						'desk' => $this->input->post('desk'),
-						'images' =>  $_FILES['images']['name'],
+						'images' => $images,
 					];
 
 				$this->m_data->add('tbl_our_product', $data);
@@ -622,8 +672,7 @@
 
 	function edit_our_product($id){
 
-		$this->load->helper(array('form', 'url'));
-		$this->form_validation->set_rules('desk', 'deksripsi', 'required|trim');
+		$this->form_validation->set_rules($this->m_valid->valid_ourProduk());
 
 		if ($this->form_validation->run() == false) {
 			$data['product'] = $this->m_data->det('tbl_our_product',$id);
@@ -647,6 +696,7 @@
 
 				$config['upload_path']          = './assets/upload';
 				$config['allowed_types']        = 'jpg|png|jpeg';
+				$config['remove_spaces']        = true;
 		
 			$this->load->library('upload', $config);
 			if (!$this->upload->do_upload('images')){
@@ -655,11 +705,14 @@
 		 		redirect('admin/our_product');
 			}else{
 
+					$gambar = $_FILES['images']['name'];
+					$name = strtolower(trim($gambar));
+					$images = str_replace(' ', '_', $name);
 
 					$data = [
 					
 						'desk' => $this->input->post('desk'),
-						'images' =>  $_FILES['images']['name'],
+						'images' =>  $images,
 					];
 
 					$this->m_data->update($id, 'tbl_our_product', $data);
@@ -676,6 +729,9 @@
 	function hapus_our_product(){
 
 		$id = $this->input->post('id');
+		$images = $this->input->post('images');
+		unlink('assets/upload/'.$images);
+
 		$this->m_data->hapus($id,'tbl_our_product');
 		$this->session->set_flashdata('message', 'swal("Yess!", "Data berhasil dihapus", "success");');
 		redirect('admin/our_product');
@@ -683,8 +739,7 @@
 
 		function our_strength(){
 
-		$this->load->helper(array('form', 'url'));
-		$this->form_validation->set_rules('desk', 'deksripsi', 'required|trim');
+		$this->form_validation->set_rules($this->m_valid->valid_ourStrength());
 
 		if ($this->form_validation->run() == false) {
 			$data['product'] = $this->db->get('tbl_our_strength')->result_array();
@@ -695,6 +750,7 @@
 
 			$config['upload_path']          = './assets/upload';
 			$config['allowed_types']        = 'jpg|png|jpeg';
+			$config['remove_spaces']        = true;
 		
 			$this->load->library('upload', $config);
 			if (!$this->upload->do_upload('images')){
@@ -703,11 +759,14 @@
 		 		redirect('admin/our_strength');
 			}else{
 
+				$gambar = $_FILES['images']['name'];
+				$name = strtolower(trim($gambar));
+				$images = str_replace(' ', '_', $name);
 
 					$data = [
 					
 						'desk' => $this->input->post('desk'),
-						'images' =>  $_FILES['images']['name'],
+						'images' =>  $images,
 					];
 
 				$this->m_data->add('tbl_our_strength', $data);
@@ -722,8 +781,7 @@
 
 	function edit_our_strength($id){
 
-		$this->load->helper(array('form', 'url'));
-		$this->form_validation->set_rules('desk', 'deksripsi', 'required|trim');
+		$this->form_validation->set_rules($this->m_valid->valid_ourStrength());
 
 		if ($this->form_validation->run() == false) {
 			$data['strength'] =$this->m_data->det('tbl_our_strength',$id);
@@ -747,6 +805,7 @@
 
 				$config['upload_path']          = './assets/upload';
 				$config['allowed_types']        = 'jpg|png|jpeg';
+				$config['remove_spaces']        = true;
 		
 			$this->load->library('upload', $config);
 			if (!$this->upload->do_upload('images')){
@@ -755,11 +814,15 @@
 		 		redirect('admin/our_strength');
 			}else{
 
+				$gambar = $_FILES['images']['name'];
+				$name = strtolower(trim($gambar));
+				$images = str_replace(' ', '_', $name);
+
 
 					$data = [
 					
 						'desk' => $this->input->post('desk'),
-						'images' =>  $_FILES['images']['name'],
+						'images' =>  $images,
 					];
 
 					$this->m_data->update($id, 'tbl_our_strength', $data);
@@ -776,6 +839,9 @@
 	function hapus_our_strength(){
 
 		$id = $this->input->post('id');
+		$images = $this->input->post('images');
+		unlink('assets/upload/'.$images);
+
 		$this->m_data->hapus($id, 'tbl_our_strength');
 		$this->session->set_flashdata('message', 'swal("Yess!", "Data berhasil dihapus", "success");');
 		redirect('admin/our_strength');
@@ -784,10 +850,16 @@
 
 	function contact(){
 
-		$data['contact'] = $this->m_data->get_all('tbl_contact');
-		$this->load->view('template/header');
-		$this->load->view('admin/contact', $data);
-		$this->load->view('template/footer');
+		$this->form_validation->set_rules($this->m_valid->valid_contact());
+
+		if ($this->form_validation->run() == false) {
+			$data['contact'] = $this->m_data->get_all('tbl_contact');
+			$this->load->view('template/header');
+			$this->load->view('admin/contact', $data);
+			$this->load->view('template/footer');
+
+		}else{
+	
 
 		$kirim = $this->input->post('kirim');
 		if (isset($kirim)) {
@@ -811,6 +883,8 @@
 
 	}
 
+	}
+
 	function hapus_contact(){
 
 		$id = $this->input->post('id');
@@ -821,10 +895,16 @@
 
 
 	function edit_contact($id){
-		$data['contact'] = $this->db->get_where('tbl_contact',['id' => $id])->row_array();
-		$this->load->view('template/header');
-		$this->load->view('admin/edit_contact', $data);
-		$this->load->view('template/footer');
+		$this->form_validation->set_rules($this->m_valid->valid_contact());
+
+
+		if ($this->form_validation->run() == false) {
+			
+			$data['contact'] = $this->db->get_where('tbl_contact',['id' => $id])->row_array();
+			$this->load->view('template/header');
+			$this->load->view('admin/edit_contact', $data);
+			$this->load->view('template/footer');
+		}else{
 
 		$edit = $this->input->post('edit');
 		if (isset($edit)) {
@@ -847,6 +927,8 @@
 
 	}
 
+	}
+
 
 	function pesan(){
 
@@ -859,6 +941,7 @@
 	function hapus_pesan(){
 
 		$id = $this->input->post('id');
+
 		$this->m_data->hapus($id, 'tbl_pesan');
 		$this->session->set_flashdata('message', 'swal("Yess!", "Data berhasil dihapus", "success");');
 		redirect('admin/pesan');
@@ -905,6 +988,7 @@
 	function hapus_admin(){
 
 		$id = $this->input->post('id');
+		
 		$this->m_data->hapus($id, 'tbl_admin');
 		$this->session->set_flashdata('message', 'swal("Yess!", "Data berhasil dihapus", "success");');
 		redirect('admin/admin');

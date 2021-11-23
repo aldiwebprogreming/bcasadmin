@@ -53,6 +53,7 @@
                                                     Apakah anda ingin menghapus data ini?
                                                     <form method="post" action="<?= base_url('admin/hapus_product') ?>">
                                                         <input type="hidden" name="id" value="<?= $data['id_produk'] ?>">
+                                                         <input type="hidden" name="images" value="<?= $data['gambar'] ?>">
                                                    
                                                   </div>
                                                   <div class="modal-footer">

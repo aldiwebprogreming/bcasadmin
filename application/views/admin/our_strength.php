@@ -25,7 +25,8 @@
                                     <form method="post" action="" enctype="multipart/form-data">
                                         <div class="form-group">
                                             <label>Deskripsi</label>
-                                            <textarea class="form-control" name="desk" required=""></textarea>
+                                             <textarea class="form-control" name="desk" ><?php echo set_value('desk'); ?></textarea>
+                                             <?= form_error('desk', '<small class="text-danger pl-3">', '</small>'); ?>
                                         </div>
                                         <div class="form-group">
                                             <label>Images</label>
