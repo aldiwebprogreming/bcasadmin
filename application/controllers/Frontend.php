@@ -39,10 +39,15 @@ class Frontend extends CI_Controller {
 	}
 	
 	public function productDetail($alias = null)
-	{
-		$data['detail'] = $this->product_model->detailProduk($alias);
+	{	
 
+
+		$data['detail'] = $this->product_model->detailProduk($alias);
+		if ($data['detail'] == false) {
+			redirect('/');
+		}else{
 		$this->load->view('frontend/product-detail', $data);	
+		}
 	}
 	
 	public function contact()

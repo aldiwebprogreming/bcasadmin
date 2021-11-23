@@ -995,6 +995,73 @@
 	}
 
 
+	// public function sendEmail()
+ //     {
+		 
+ //          $config['mailtype'] = 'text';
+ //          $config['protocol'] = 'mail';
+ //          $config['smtp_host'] = 'mail.bjmsgroup.com';
+ //          $config['smtp_user'] = 'no-reply@bjmsgroup.com';
+ //          $config['smtp_pass'] = 'BUdijayap4tenkal!';
+ //          $config['smtp_port'] = '465';
+ //          $config['newline'] = "\r\n";
+
+ //          $this->load->library('email', $config);
+ //          $this->email->from('no-reply@bjmsgroup.com', 'test');
+ //          $this->email->to('alldii1956@gmail.com');
+ //          $this->email->subject('test');
+ //          $this->email->message('Hello');
+
+ //          if($this->email->send()) {
+             
+	// 		  echo "berhasil";
+ //          }
+		 
+ //          else {
+ //               echo 'Email tidak berhasil dikirim';
+ //               echo '<br />';
+ //               echo $this->email->print_debugger();
+ //          }
+
+ //     }
+
+
+
+public function send()
+     {
+		
+		 
+          $config['mailtype'] = 'text';
+          $config['protocol'] = 'mail';
+          $config['smtp_host'] = 'mail.bjmsgroup.com';
+          $config['smtp_user'] = 'no-reply@bjmsgroup.com';
+          $config['smtp_pass'] = 'BUdijayap4tenkal!';
+          $config['smtp_port'] = '465';
+          $config['newline'] = "\r\n";
+
+          $this->load->library('email', $config);
+
+          $this->email->from('no-reply@bjmsgroup.com', 'Request for Quotation');
+          $this->email->to('pa_mkt@bjmsgroup.com');
+          $this->email->subject('Quotation from ');
+          $this->email->message('set');
+
+          if($this->email->send()) {
+               //echo 'Email berhasil dikirim';
+			  	$this->session->set_flashdata('quote', 'Quotation has been sent successfully!');
+				redirect(base_url());
+          }
+		 
+          else {
+               echo 'Email tidak berhasil dikirim';
+               echo '<br />';
+               echo $this->email->print_debugger();
+          }
+
+     }
+
+
+
 
 
 
